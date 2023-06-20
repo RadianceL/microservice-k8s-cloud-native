@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloud-service-provider-cloud-starter-deployment
+  namespace: spring-kubernetes-cloud
+  labels:
+    app: cloud-service-provider-cloud-starter-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: cloud-service-provider-cloud-starter-deployment
+      labels:
+        app: cloud-service-provider-cloud-starter-deployment
+    spec:
+      containers:
+        - name: spring-kubernetes-cloud-deployment
+          image: registry.cn-shanghai.aliyuncs.com/misumi_basic/cloud-service-provider-cloud-starter:1.0.0-SNAPSHOT
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+      restartPolicy: Always
+      serviceAccountName: cloud-service-k8s-service-account
+  selector:
+    matchLabels:
+      app: cloud-service-provider-cloud-starter-deployment

@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloud-service-center-domain-router-deployment
+  namespace: spring-kubernetes-cloud
+  labels:
+    app: cloud-service-center-domain-router-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: cloud-service-center-domain-router-deployment
+      labels:
+        app: cloud-service-center-domain-router-deployment
+    spec:
+      containers:
+        - name: spring-kubernetes-cloud-deployment
+          image: registry.cn-shanghai.aliyuncs.com/misumi_basic/micro-service-router:1.0.0-SNAPSHOT
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+      restartPolicy: Always
+      serviceAccountName: cloud-service-k8s-service-account
+  selector:
+    matchLabels:
+      app: cloud-service-center-domain-router-deployment

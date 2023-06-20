@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: spring-kubernetes-service
+  namespace: spring-kubernetes-cloud
+spec:
+  selector:
+    app: cloud-service-center-domain-router-deployment
+  ports:
+    - port: 8080
+      targetPort: 8000
+      nodePort: 30009
+  type: NodePort

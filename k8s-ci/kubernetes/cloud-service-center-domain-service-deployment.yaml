@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloud-service-center-domain-service-deployment
+  namespace: spring-kubernetes-cloud
+  labels:
+    app: cloud-service-center-domain-service-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: cloud-service-center-domain-service-deployment
+      labels:
+        app: cloud-service-center-domain-service-deployment
+    spec:
+      containers:
+        - name: spring-kubernetes-cloud-deployment
+          image: registry.cn-shanghai.aliyuncs.com/misumi_basic/cloud-service-center-domain-service:1.0.0-SNAPSHOT
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+      restartPolicy: Always
+      serviceAccountName: cloud-service-k8s-service-account
+  selector:
+    matchLabels:
+      app: cloud-service-center-domain-service-deployment
