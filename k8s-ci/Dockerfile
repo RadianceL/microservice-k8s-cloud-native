@@ -1,4 +1,4 @@
-FROM openjdk:17-jdk-alpine
+FROM registry.cn-shanghai.aliyuncs.com/misumi/e-jdk:17.0.4.1
 
 # 传入参数
 ARG ACTIVE_PROFILE
