@@ -13,6 +13,10 @@ spring:
       discovery:
         namespaces:
           - spring-kubernetes-cloud
+      config:
+        namespace: default-namespace
+        sources:
+          - name: sso-service-config
     inetutils:
       timeout-seconds: 10
     gateway:
