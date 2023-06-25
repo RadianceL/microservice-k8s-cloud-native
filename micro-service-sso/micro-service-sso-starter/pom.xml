@@ -33,4 +33,15 @@
             <artifactId>spring-boot-configuration-processor</artifactId>
         </dependency>
     </dependencies>
+
+    <build>
+        <finalName>micro-service-sso</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.7.5</version>
+            </plugin>
+        </plugins>
+    </build>
 </project>

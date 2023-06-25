@@ -11,4 +11,11 @@
 
     <artifactId>micro-service-sso-client</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>cn.fuxi</groupId>
+            <artifactId>micro-service-basic</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 </project>
