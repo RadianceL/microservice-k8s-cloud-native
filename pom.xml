@@ -19,6 +19,7 @@
         <module>micro-service-basic</module>
         <module>micro-service-router</module>
         <module>micro-service-sso</module>
+        <module>micro-service-product</module>
     </modules>
 
     <dependencies>
