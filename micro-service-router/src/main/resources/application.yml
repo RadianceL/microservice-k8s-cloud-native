@@ -1,0 +1,28 @@
+server:
+  port: ${SERVER_PORT:8000}
+  tomcat:
+    remoteip:
+      host-header: X-Real-IP
+    max-http-form-post-size: 30MB
+    connection-timeout: 120000
+  netty:
+    connection-timeout: 120000
+spring:
+  cloud:
+    kubernetes:
+      discovery:
+        namespaces:
+          - spring-kubernetes-cloud
+    inetutils:
+      timeout-seconds: 10
+    gateway:
+      httpclient:
+        pool:
+          max-idle-time: 10000
+      routes:
+        - id: pass-saas-certification
+          uri: lb://pass-saas-certification
+          predicates:
+            - Path=/certification/**
+          filters:
+            - StripPrefix=1
