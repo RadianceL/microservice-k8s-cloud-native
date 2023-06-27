@@ -21,7 +21,7 @@ import java.util.UUID;
 public class AuthController {
 
 
-    @Value("spring.datasource.db1.name")
+    @Value("${spring.datasource.db1.name}")
     private String value;
 
 
