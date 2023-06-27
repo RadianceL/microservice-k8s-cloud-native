@@ -5,7 +5,7 @@ metadata:
   namespace: spring-kubernetes-cloud
 spec:
   selector:
-    app: cloud-service-center-domain-router-deployment
+    app: micro-service-router-service
   ports:
     - port: 8080
       targetPort: 8000
