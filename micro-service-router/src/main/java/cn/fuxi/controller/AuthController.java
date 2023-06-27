@@ -4,6 +4,7 @@ import cn.fuxi.common.user.UserInfo;
 import com.alibaba.fastjson2.JSON;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,6 +20,11 @@ import java.util.UUID;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class AuthController {
 
+
+    @Value("spring.datasource.db1.name")
+    private String value;
+
+
     private final  RedisTemplate<String,String> redisTemplate;
 
     private final ReactiveAuthenticationManager authenticationManager;
@@ -28,6 +34,8 @@ public class AuthController {
      */
     @PostMapping(value = "/api/login")
     public Mono<String> login(@RequestBody UserInfo user) {
+        System.out.println(value);
+
         String username = user.getUsername();
         String password = user.getPassword();
         /**
