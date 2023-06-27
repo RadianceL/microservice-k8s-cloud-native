@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: sso-service-config
+  name: micro-service-router
   namespace: spring-kubernetes-cloud
 data:
-  sso-config-map.yaml: |-
+  application.yaml: |-
     spring:
       shardingsphere:
         rules:
