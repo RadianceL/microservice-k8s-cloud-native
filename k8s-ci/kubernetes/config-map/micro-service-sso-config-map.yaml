@@ -1,0 +1,93 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: micro-service-sso
+  namespace: spring-kubernetes-cloud
+data:
+  application.yaml: |-
+    spring:
+      shardingsphere:
+        rules:
+          sharding:
+            default-database-strategy:
+              standard:
+                sharding-column: timestamp
+                sharding-algorithm-name: standardDatabaseShardingAlgorithm
+        datasource:
+          db1:
+            name: db1
+            type: com.zaxxer.hikari.HikariDataSource
+            driver-class-name: com.mysql.cj.jdbc.Driver
+            url: jdbc:mysql://124.222.147.194:3306/db1?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+            username: root
+            password: "@Qwer7410."
+            validationQuery: SELECT 1 FROM DUAL
+          names: db1
+    ---
+    spring:
+      config:
+        activate:
+          on-profile: development
+      shardingsphere:
+        rules:
+          sharding:
+            default-database-strategy:
+              standard:
+                sharding-column: timestamp
+                sharding-algorithm-name: standardDatabaseShardingAlgorithm
+        datasource:
+          db1:
+            name: db1
+            type: com.zaxxer.hikari.HikariDataSource
+            driver-class-name: com.mysql.cj.jdbc.Driver
+            url: jdbc:mysql://124.222.147.194:3306/db1?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+            username: root
+            password: "@Qwer7410."
+            validationQuery: SELECT 1 FROM DUAL
+          db2:
+            name: db2
+            type: com.zaxxer.hikari.HikariDataSource
+            driver-class-name: com.mysql.cj.jdbc.Driver
+            jdbc-url: jdbc:mysql://124.222.147.194:3306/db2?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+            username: root
+            password: "@Qwer7410."
+            validationQuery: SELECT 1 FROM DUAL
+          names: db1,db2
+    ---
+    spring:
+      config:
+        activate:
+          on-profile: production
+      shardingsphere:
+        rules:
+          sharding:
+            default-database-strategy:
+              standard:
+                sharding-column: timestamp
+                sharding-algorithm-name: standardDatabaseShardingAlgorithm
+        datasource:
+          db1:
+            name: db1
+            type: com.zaxxer.hikari.HikariDataSource
+            driver-class-name: com.mysql.cj.jdbc.Driver
+            url: jdbc:mysql://124.222.147.194:3306/db1?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+            username: root
+            password: "@Qwer7410."
+            validationQuery: SELECT 1 FROM DUAL
+          db2:
+            name: db2
+            type: com.zaxxer.hikari.HikariDataSource
+            driver-class-name: com.mysql.cj.jdbc.Driver
+            jdbc-url: jdbc:mysql://124.222.147.194:3306/db2?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+            username: root
+            password: "@Qwer7410."
+            validationQuery: SELECT 1 FROM DUAL
+          db3:
+            name: db3
+            type: com.zaxxer.hikari.HikariDataSource
+            driver-class-name: com.mysql.cj.jdbc.Driver
+            jdbc-url: jdbc:mysql://124.222.147.194:3306/db3?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+            username: root
+            password: "@Qwer7410."
+            validationQuery: SELECT 1 FROM DUAL
+          names: db1,db2,db3

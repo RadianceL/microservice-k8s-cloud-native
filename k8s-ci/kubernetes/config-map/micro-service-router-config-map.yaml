@@ -5,89 +5,80 @@ metadata:
   namespace: spring-kubernetes-cloud
 data:
   application.yaml: |-
-    spring:
-      shardingsphere:
-        rules:
-          sharding:
-            default-database-strategy:
-              standard:
-                sharding-column: timestamp
-                sharding-algorithm-name: standardDatabaseShardingAlgorithm
-        datasource:
-          db1:
-            name: db1
-            type: com.zaxxer.hikari.HikariDataSource
-            driver-class-name: com.mysql.cj.jdbc.Driver
-            url: jdbc:mysql://124.222.147.194:3306/db1?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
-            username: root
-            password: "@Qwer7410."
-            validationQuery: SELECT 1 FROM DUAL
-          names: db1
-    ---
-    spring:
-      config:
-        activate:
-          on-profile: development
-      shardingsphere:
-        rules:
-          sharding:
-            default-database-strategy:
-              standard:
-                sharding-column: timestamp
-                sharding-algorithm-name: standardDatabaseShardingAlgorithm
-        datasource:
-          db1:
-            name: db1
-            type: com.zaxxer.hikari.HikariDataSource
-            driver-class-name: com.mysql.cj.jdbc.Driver
-            url: jdbc:mysql://124.222.147.194:3306/db1?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
-            username: root
-            password: "@Qwer7410."
-            validationQuery: SELECT 1 FROM DUAL
-          db2:
-            name: db2
-            type: com.zaxxer.hikari.HikariDataSource
-            driver-class-name: com.mysql.cj.jdbc.Driver
-            jdbc-url: jdbc:mysql://124.222.147.194:3306/db2?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
-            username: root
-            password: "@Qwer7410."
-            validationQuery: SELECT 1 FROM DUAL
-          names: db1,db2
-    ---
+    server:
+      port: ${SERVER_PORT:8000}
+      tomcat:
+        remoteip:
+          host-header: X-Real-IP
+        max-http-form-post-size: 30MB
+        connection-timeout: 120000
+      netty:
+        connection-timeout: 120000
     spring:
       config:
         activate:
           on-profile: production
-      shardingsphere:
-        rules:
-          sharding:
-            default-database-strategy:
-              standard:
-                sharding-column: timestamp
-                sharding-algorithm-name: standardDatabaseShardingAlgorithm
-        datasource:
-          db1:
-            name: db1
-            type: com.zaxxer.hikari.HikariDataSource
-            driver-class-name: com.mysql.cj.jdbc.Driver
-            url: jdbc:mysql://124.222.147.194:3306/db1?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
-            username: root
-            password: "@Qwer7410."
-            validationQuery: SELECT 1 FROM DUAL
-          db2:
-            name: db2
-            type: com.zaxxer.hikari.HikariDataSource
-            driver-class-name: com.mysql.cj.jdbc.Driver
-            jdbc-url: jdbc:mysql://124.222.147.194:3306/db2?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
-            username: root
-            password: "@Qwer7410."
-            validationQuery: SELECT 1 FROM DUAL
-          db3:
-            name: db3
-            type: com.zaxxer.hikari.HikariDataSource
-            driver-class-name: com.mysql.cj.jdbc.Driver
-            jdbc-url: jdbc:mysql://124.222.147.194:3306/db3?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
-            username: root
-            password: "@Qwer7410."
-            validationQuery: SELECT 1 FROM DUAL
-          names: db1,db2,db3
+      cloud:
+        gateway:
+          httpclient:
+            pool:
+              max-idle-time: 10000
+          routes:
+            - id: pass-saas-certification
+              uri: lb://pass-saas-certification
+              predicates:
+                - Path=/certification/**
+              filters:
+                - StripPrefix=1
+    ---
+    server:
+      port: ${SERVER_PORT:8000}
+      tomcat:
+        remoteip:
+          host-header: X-Real-IP
+        max-http-form-post-size: 30MB
+        connection-timeout: 120000
+      netty:
+        connection-timeout: 120000
+    spring:
+      config:
+        activate:
+          on-profile: production
+      cloud:
+        gateway:
+          httpclient:
+            pool:
+              max-idle-time: 10000
+          routes:
+            - id: pass-saas-certification
+              uri: lb://pass-saas-certification
+              predicates:
+                - Path=/certification/**
+              filters:
+                - StripPrefix=1
+    ---
+    server:
+      port: ${SERVER_PORT:8000}
+      tomcat:
+        remoteip:
+          host-header: X-Real-IP
+        max-http-form-post-size: 30MB
+        connection-timeout: 120000
+      netty:
+        connection-timeout: 120000
+    spring:
+      config:
+        activate:
+          on-profile: production
+      cloud:
+        gateway:
+          httpclient:
+            pool:
+              max-idle-time: 10000
+          routes:
+            - id: pass-saas-certification
+              uri: lb://pass-saas-certification
+              predicates:
+                - Path=/certification/**
+              filters:
+                - StripPrefix=1
