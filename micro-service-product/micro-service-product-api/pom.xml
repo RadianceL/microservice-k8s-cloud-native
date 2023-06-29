@@ -5,16 +5,16 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cn.fuxi</groupId>
-        <artifactId>micro-service-sso</artifactId>
+        <artifactId>micro-service-product</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>micro-service-sso-client</artifactId>
+    <artifactId>micro-service-product-api</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>cn.fuxi</groupId>
-            <artifactId>micro-service-basic</artifactId>
+            <artifactId>micro-service-sso-service</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
     </dependencies>

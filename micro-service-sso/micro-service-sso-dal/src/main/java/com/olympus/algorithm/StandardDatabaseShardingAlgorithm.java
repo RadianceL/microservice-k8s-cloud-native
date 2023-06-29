@@ -28,17 +28,15 @@ public class StandardDatabaseShardingAlgorithm implements StandardShardingAlgori
      */
     @Override
     public String doSharding(Collection<String> availableTargetNames, PreciseShardingValue<Long> shardingValue) {
-        //分库的规则:时间戳取中间六位数对数据库数量取模 例：1688811155000 --> 811155 % 3
-        String timestamp = StringUtils.substring(String.valueOf(shardingValue.getValue()), -9, -3);
-        //分库数量
-        int dataBaseSize = 3;
-        Integer mod = Integer.parseInt(timestamp) % dataBaseSize;
-        for (String targetName : availableTargetNames) {
-            if (targetName.endsWith(String.valueOf(mod))) {
-                return targetName;
+        long companyId = shardingValue.getValue();
+        // 假设数据库名格式为db1、db2、db3等，根据公司ID进行分片计算
+        int databaseIndex = (int) (companyId % availableTargetNames.size());
+        for (String databaseName : availableTargetNames) {
+            if (databaseName.endsWith(String.valueOf(databaseIndex))) {
+                return databaseName;
             }
         }
-        throw new UnsupportedOperationException("route ds" + mod + " is not supported. please check your config");
+        throw new IllegalArgumentException("No matching database found for companyId: " + companyId);
     }
 
     /**

@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cloud-service-consumer-cloud-starter-deployment
+  name: micro-service-router
   namespace: spring-kubernetes-cloud
   labels:
-    app: cloud-service-consumer-cloud-starter-deployment
+    app: micro-service-router
 spec:
   replicas: 1
   template:
     metadata:
-      name: cloud-service-consumer-cloud-starter-deployment
+      name: micro-service-router
       labels:
-        app: cloud-service-consumer-cloud-starter-deployment
+        app: micro-service-router
     spec:
       containers:
         - name: spring-kubernetes-cloud-deployment
-          image: dockereddie/cloud-service-consumer-cloud-starter:1.0.0-SNAPSHOT
+          image: registry.cn-shanghai.aliyuncs.com/xinwen/micro-service-router:2023-06-20-17-54-21
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
@@ -23,4 +23,4 @@ spec:
       serviceAccountName: cloud-service-k8s-service-account
   selector:
     matchLabels:
-      app: cloud-service-consumer-cloud-starter-deployment
+      app: micro-service-router

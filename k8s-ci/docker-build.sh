@@ -1,5 +1,4 @@
 #!/bin/bash
-
 docker rmi dockereddie/micro-service-router:1.0.0-SNAPSHOT
 docker build --build-arg ACTIVE_PROFILE="STG" --build-arg PROJECT_FILE="micro-service-router-1.0-SNAPSHOT.jar" -f Dockerfile ../micro-service-router/target/ -t registry.cn-shanghai.aliyuncs.com/misumi_basic/micro-service-router:1.0.0-SNAPSHOT
 

@@ -1,4 +1,4 @@
-FROM openjdk:17-jdk-alpine
+FROM registry.cn-shanghai.aliyuncs.com/misumi/e-jdk:17.0.4.1
 
 # 传入参数
 ARG ACTIVE_PROFILE
@@ -12,15 +12,18 @@ COPY $PROJECT_FILE /application.jar
 ENV APPLICATION_PROFILE=$ACTIVE_PROFILE
 ##docker 服务启动参数
 ENTRYPOINT ["java", \
-    "-Xms1024M", \
+    "-XX:+UnlockDiagnosticVMOptions", \
+    "-XX:+UnlockExperimentalVMOptions", \
+    "-XX:+AlwaysPreTouch", \
+    "-XX:MaxRAMPercentage=75", \
+    "-XX:+DisableExplicitGC", \
+    "-XX:+UseG1GC", \
+    "-XX:G1HeapRegionSize=8m", \
+    "-XX:G1ReservePercent=15", \
+    "-XX:+UseStringDeduplication", \
     "--add-opens=java.base/java.lang=ALL-UNNAMED", \
     "--add-opens=java.base/java.util=ALL-UNNAMED", \
     "--add-opens=java.base/sun.net.util=ALL-UNNAMED", \
-    "-XX:+UseG1GC", \
-    "-XX:+UseStringDeduplication", \
-    "-XX:+HeapDumpOnOutOfMemoryError", \
-    "-XX:HeapDumpPath=/usr/local/app/oom", \
-    "-Xlog:gc*", \
-    "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:7080", \
     "-jar", "/application.jar", \
-    "-Dreactor.netty.pool.leasingStrategy=lifo"]
+    "-Dreactor.netty.pool.leasingStrategy=lifo", \
+    "-Dio.netty.tryReflectionSetAccessible=true"]

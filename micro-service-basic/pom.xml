@@ -34,5 +34,10 @@
             <artifactId>spring-boot-starter-security</artifactId>
             <optional>true</optional>
         </dependency>
+
+        <dependency>
+            <groupId>com.olympus</groupId>
+            <artifactId>olympus-chaos-monitor-base-logger</artifactId>
+        </dependency>
     </dependencies>
 </project>
