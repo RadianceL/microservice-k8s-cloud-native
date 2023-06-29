@@ -4,10 +4,17 @@ metadata:
   name: cloud-service-provider-service
   namespace: spring-kubernetes-cloud
 spec:
+  clusterIP: None
+  clusterIPs:
+    - None
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+    - IPv4
   selector:
     app: cloud-service-provider-cloud-starter-deployment
   ports:
-    - port: 8083
-      targetPort: 8080
-      nodePort: 30012
-  type: NodePort
+    - name: ats
+      port: 8000
+      protocol: TCP
+      targetPort: 8000
+  type: ClusterIP
