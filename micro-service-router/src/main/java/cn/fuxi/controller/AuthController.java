@@ -20,10 +20,8 @@ import java.util.UUID;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class AuthController {
 
-
     @Value("${spring.shardingsphere.datasource.db1.name}")
     private String value;
-
 
     private final  RedisTemplate<String,String> redisTemplate;
 
@@ -38,7 +36,7 @@ public class AuthController {
 
         String username = user.getUsername();
         String password = user.getPassword();
-        /**
+        /*
          * 认证处理逻辑如下：
          * 1. 认证成功后，从获取到的MyUserDetail对象获取User对象，
          * 2. 将User对象使用FastJson2 序列化，并存储到redis中，
@@ -53,6 +51,5 @@ public class AuthController {
             redisTemplate.opsForValue().set(token, JSON.toJSONString(user1));
             return token;
         });
-
     }
 }
