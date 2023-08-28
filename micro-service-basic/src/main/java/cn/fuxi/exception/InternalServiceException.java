@@ -3,27 +3,24 @@ package cn.fuxi.exception;
 
 import com.olympus.base.utils.support.exception.ExtendRuntimeException;
 import com.olympus.base.utils.support.globalization.ErrorMessage;
+import lombok.Getter;
 
 /**
  * 内服服务异常
  * @author eddie.lys
  * @since 2023/5/11
  */
+@Getter
 public class InternalServiceException extends ExtendRuntimeException {
 
     /**
-     * 2021-09-24 由TerryQi进行优化，因为某些异常需要抛出code、message和data，所以扩展业务信息
+     * 异常错误码
      */
-    private String message;        //异常错误码
-    private Object data;        //异常扩展数据
-
-    public String getMessage() {
-        return message;
-    }
-
-    public Object getData() {
-        return data;
-    }
+    private String message;
+    /**
+     * 异常扩展数据
+     */
+    private Object data;
 
     public InternalServiceException() {
         super();
@@ -42,7 +39,6 @@ public class InternalServiceException extends ExtendRuntimeException {
     public InternalServiceException(String error, Object... args) {
         super(error);
     }
-
 
     public InternalServiceException(ErrorMessage errorMessage) {
         super(errorMessage);
