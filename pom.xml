@@ -17,9 +17,9 @@
 
     <modules>
         <module>micro-service-basic</module>
-        <module>micro-service-router</module>
-        <module>micro-service-sso</module>
-        <module>micro-service-product</module>
+        <module>micro-service-internal-mesh</module>
+        <module>micro-service-k8s</module>
+        <module>micro-service-dubbo</module>
     </modules>
 
     <dependencies>
