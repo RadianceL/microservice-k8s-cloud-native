@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>cn.fuxi</groupId>
+        <artifactId>micro-service-k8s</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+    <packaging>pom</packaging>
+
+    <description>
+        系统业务服务 - 用于提供商品域能力接口
+    </description>
+
+    <artifactId>micro-service-product</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+
+    <modules>
+        <module>micro-service-product-api</module>
+        <module>micro-service-product-client</module>
+        <module>micro-service-product-dal</module>
+        <module>micro-service-product-service</module>
+        <module>micro-service-product-starter</module>
+    </modules>
+
+</project>

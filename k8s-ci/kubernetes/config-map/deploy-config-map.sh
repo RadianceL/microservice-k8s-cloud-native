@@ -1,0 +1,1 @@
+kubectl create configmap micro-service-router --from-file=micro-service-router-config-map.yaml --namespace=spring-kubernetes-cloud
