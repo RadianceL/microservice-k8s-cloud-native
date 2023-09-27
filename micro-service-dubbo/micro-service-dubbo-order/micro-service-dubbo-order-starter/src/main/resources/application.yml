@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: micro-service-dubbo-order
+dubbo:
+  application:
+    name: micro-service-dubbo-order
+  registry:
+    address: nacos://124.222.147.194:8848
+

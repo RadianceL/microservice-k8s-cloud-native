@@ -5,19 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cn.fuxi</groupId>
-        <artifactId>micro-service-dubbo</artifactId>
+        <artifactId>micro-service-dubbo-order</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>micro-service-dubbo-order</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>micro-service-dubbo-order-starter</module>
-        <module>micro-service-dubbo-order-service</module>
-        <module>micro-service-dubbo-order-interface</module>
-        <module>micro-service-dubbo-order-app</module>
-        <module>micro-service-dubbo-order-dal</module>
-    </modules>
+    <artifactId>micro-service-dubbo-order-service</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -25,4 +17,11 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>cn.fuxi</groupId>
+            <artifactId>micro-service-dubbo-order-interface</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 </project>
