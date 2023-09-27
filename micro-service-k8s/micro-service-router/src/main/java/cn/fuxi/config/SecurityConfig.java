@@ -100,6 +100,7 @@ public class SecurityConfig {
         
         return http.csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .addFilterAt(smsCodeAuthenticationFilter, SecurityWebFiltersOrder.FORM_LOGIN)
+                // 获取上次登陆jwt校验
                 .securityContextRepository(new CustomSecurityContextRepository())
                 .authorizeExchange(authorizeExchangeSpec ->
                         authorizeExchangeSpec.pathMatchers(HttpMethod.POST, "/api/login")
