@@ -1,6 +1,7 @@
 package cn.fuxi.common.response;
 
 import cn.fuxi.ApplicationAppConstants;
+import com.olympus.base.utils.support.exception.ExtendRuntimeException;
 import com.olympus.base.utils.support.globalization.GlobalMessage;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,6 +19,14 @@ import java.util.Objects;
 @Data
 @NoArgsConstructor
 public class Response<T> {
+
+    public static <T> Response<T> invalidIpPermissions() {
+        return ofInvalid(ApplicationAppConstants.RESPONSE_CODE_IP_PERMISSIONS, "P-BASICS-00011");
+    }
+    public static <T> Response<T> invalidToken() {
+        return ofInvalid(ApplicationAppConstants.RESPONSE_CODE_TOKEN, "P-BASICS-00012");
+    }
+
     /**
      * 标准返回代码
      */
@@ -30,6 +39,23 @@ public class Response<T> {
      * 业务参数返回
      */
     private T data;
+
+    /**
+     * 多语言无效返回值处理
+     */
+    public static <T> Response<T> ofInvalid(String code, String languageCode) {
+        Response<T> response = new Response<>();
+        response.setCode(code);
+        response.setMessage(GlobalMessage.of(languageCode));
+        return response;
+    }
+
+    public static Response<String> ofException(ExtendRuntimeException e) {
+        Response<String> response = new Response<>();
+        response.setCode(e.getErrorCode());
+        response.setMessage(e.getErrorMessage());
+        return response;
+    }
 
     public Response(String code, String message, T data) {
         this.code = code;

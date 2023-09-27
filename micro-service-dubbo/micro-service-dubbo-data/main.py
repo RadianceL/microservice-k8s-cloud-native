@@ -2,8 +2,7 @@ print("first")
 
 
 def say_hello():
-    str = "hello"
-    print(str);
+    print("hello")
     print(__name__ + 'from hello.sayhello()')
 
 

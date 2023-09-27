@@ -29,7 +29,7 @@ public class SmsCodeAuthenticationProvider implements ReactiveAuthenticationMana
         String mobile = authentication.getName();
         String verifyCode = authentication.getCredentials().toString();
 
-        return authenticationService.loginByMultipleWays(mobile, verifyCode, LoginTypeEnums.PHONE_VERIFY)
+        return authenticationService.loginByMultipleWays(mobile, verifyCode, LoginTypeEnums.ACCOUNT)
                 .map(userDetails -> new UsernamePasswordAuthenticationToken(mobile, verifyCode, userDetails.getAuthorities()))
                 .switchIfEmpty(Mono.error(new BadCredentialsException("Invalid code")))
                 .flatMap(Mono::just);
