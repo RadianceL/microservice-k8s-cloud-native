@@ -18,6 +18,6 @@ public class CustomAuthenticationEntryPoint implements ServerAuthenticationEntry
     @Override
     public Mono<Void> commence(ServerWebExchange exchange, AuthenticationException ex) {
         ServerHttpResponse response = exchange.getResponse();
-        return ResponseHelper.out(response, "自定义未授权拦截器");
+        return ResponseHelper.writeWith(response, "自定义未授权拦截器");
     }
 }

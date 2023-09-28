@@ -15,7 +15,7 @@ import java.nio.charset.StandardCharsets;
 public class ResponseHelper {
 
     @SneakyThrows
-    public static Mono<Void> out(ServerHttpResponse response, Object result) {
+    public static Mono<Void> writeWith(ServerHttpResponse response, Object result) {
         ObjectMapper objectMapper=new ObjectMapper();
         byte[] bits = objectMapper.writeValueAsString(result).getBytes(StandardCharsets.UTF_8);
         DataBuffer buffer = response.bufferFactory().wrap(bits);

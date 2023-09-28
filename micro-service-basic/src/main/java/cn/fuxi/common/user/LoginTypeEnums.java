@@ -1,5 +1,10 @@
 package cn.fuxi.common.user;
 
+import com.alibaba.excel.util.StringUtils;
+import org.apache.poi.util.StringUtil;
+
+import java.util.Arrays;
+
 /**
  * 登录方式
  *
@@ -18,5 +23,16 @@ public enum LoginTypeEnums {
     /**
      * 微信扫码登录
      */
-    WECHAT
+    WECHAT;
+
+    public static LoginTypeEnums findLoginTypeEnums(String loginType) {
+        if (StringUtils.isBlank(loginType)) {
+            return LoginTypeEnums.ACCOUNT;
+        }
+        return Arrays.stream(LoginTypeEnums.values())
+                .filter(loginTypeEnum -> loginTypeEnum.name().equals(loginType))
+                .findAny()
+                .orElse(null);
+    }
+
 }

@@ -17,7 +17,6 @@ public class CustomAccessDeniedHandler implements ServerAccessDeniedHandler {
 
     @Override
     public Mono<Void> handle(ServerWebExchange exchange, AccessDeniedException denied) {
-        ServerHttpResponse response = exchange.getResponse();
-        return ResponseHelper.out(response, "自定义无权限拦截器");
+        return ResponseHelper.writeWith(exchange.getResponse(), "自定义无权限拦截器");
     }
 }

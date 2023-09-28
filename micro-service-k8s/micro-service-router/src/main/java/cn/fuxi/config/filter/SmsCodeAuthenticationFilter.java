@@ -1,61 +1,64 @@
-package cn.fuxi.config.filter;
-
-import cn.fuxi.config.sms.SmsCodeAuthenticationToken;
-import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Component;
-import org.springframework.web.server.ServerWebExchange;
-import org.springframework.web.server.WebFilter;
-import org.springframework.web.server.WebFilterChain;
-import reactor.core.publisher.Mono;
-
-import java.util.Objects;
-
-/**
- * @author eddie.lys
- * @since 2023/5/11
- */
-@Component
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class SmsCodeAuthenticationFilter implements WebFilter {
-
-    private final String MOBILE_PARAMETER = "mobile";
-    private final String CODE_PARAMETER = "code";
-
-    @Override
-    public @NotNull Mono<Void> filter(@NotNull ServerWebExchange exchange, @NotNull WebFilterChain chain) {
-        System.out.println("SmsCodeAuthenticationFilter filter....." + exchange.getRequest().getPath());
-
-        if (isAuthenticationRequest(exchange)) {
-            return authenticate(exchange);
-        } else {
-            return chain.filter(exchange);
-        }
-    }
-
-    private Mono<Void> authenticate(ServerWebExchange exchange) {
-        String mobile = exchange.getRequest().getQueryParams().getFirst(MOBILE_PARAMETER);
-        String code = exchange.getRequest().getQueryParams().getFirst(CODE_PARAMETER);
-        if (StringUtils.isEmpty(mobile) || StringUtils.isEmpty(code)) {
-            return Mono.error(new BadCredentialsException("Invalid mobile or code"));
-        }
-        SmsCodeAuthenticationToken token = new SmsCodeAuthenticationToken(mobile, code);
-        Authentication authenticate = Objects.requireNonNull(exchange.getApplicationContext()).getBean(AuthenticationManager.class)
-                .authenticate(token);
-        exchange.getAttributes().put(Authentication.class.getName(), authenticate);
-        return exchange.getSession()
-                .doOnSuccess(session -> session.getAttributes().put(Authentication.class.getName(), authenticate))
-                .then();
-    }
-
-    private boolean isAuthenticationRequest(ServerWebExchange exchange) {
-        return exchange.getRequest().getURI().getPath().endsWith("/login/sms")
-                && exchange.getRequest().getQueryParams().containsKey(MOBILE_PARAMETER)
-                && exchange.getRequest().getQueryParams().containsKey(CODE_PARAMETER);
-    }
-}
+//package cn.fuxi.config.filter;
+//
+//import cn.fuxi.config.authentication.UserAuthenticationToken;
+//import lombok.RequiredArgsConstructor;
+//import lombok.extern.slf4j.Slf4j;
+//import org.apache.commons.lang3.StringUtils;
+//import org.jetbrains.annotations.NotNull;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.security.authentication.AuthenticationManager;
+//import org.springframework.security.authentication.BadCredentialsException;
+//import org.springframework.security.core.Authentication;
+//import org.springframework.stereotype.Component;
+//import org.springframework.web.server.ServerWebExchange;
+//import org.springframework.web.server.WebFilter;
+//import org.springframework.web.server.WebFilterChain;
+//import reactor.core.publisher.Mono;
+//
+//import java.util.Objects;
+//
+///**
+// * 先经过这个拦截器，判定是否需要走sls
+// * @author eddie.lys
+// * @since 2023/5/11
+// */
+//@Slf4j
+//@Component
+//@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+//public class SmsCodeAuthenticationFilter implements WebFilter {
+//
+//    private final String MOBILE_PARAMETER = "mobile";
+//    private final String CODE_PARAMETER = "code";
+//
+//    @Override
+//    public @NotNull Mono<Void> filter(@NotNull ServerWebExchange exchange, @NotNull WebFilterChain chain) {
+//        boolean smsFlag = isAuthenticationRequest(exchange);
+//        log.info("SmsCodeAuthenticationFilter filter.....{}, sms flag: {}", exchange.getRequest().getPath(), smsFlag);
+//        if (smsFlag) {
+//            return authenticate(exchange);
+//        } else {
+//            return chain.filter(exchange);
+//        }
+//    }
+//
+//    private Mono<Void> authenticate(ServerWebExchange exchange) {
+//        String mobile = exchange.getRequest().getQueryParams().getFirst(MOBILE_PARAMETER);
+//        String code = exchange.getRequest().getQueryParams().getFirst(CODE_PARAMETER);
+//        if (StringUtils.isEmpty(mobile) || StringUtils.isEmpty(code)) {
+//            return Mono.error(new BadCredentialsException("Invalid mobile or code"));
+//        }
+//        UserAuthenticationToken token = new UserAuthenticationToken(mobile, code);
+//        Authentication authenticate = Objects.requireNonNull(exchange.getApplicationContext()).getBean(AuthenticationManager.class)
+//                .authenticate(token);
+//        exchange.getAttributes().put(Authentication.class.getName(), authenticate);
+//        return exchange.getSession()
+//                .doOnSuccess(session -> session.getAttributes().put(Authentication.class.getName(), authenticate))
+//                .then();
+//    }
+//
+//    private boolean isAuthenticationRequest(ServerWebExchange exchange) {
+//        return exchange.getRequest().getURI().getPath().endsWith("/login/sms")
+//                && exchange.getRequest().getQueryParams().containsKey(MOBILE_PARAMETER)
+//                && exchange.getRequest().getQueryParams().containsKey(CODE_PARAMETER);
+//    }
+//}

@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
@@ -20,11 +21,16 @@ import reactor.core.publisher.Mono;
 @Slf4j
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class AuthenticationServiceImpl implements AuthenticationService {
+public class AuthenticationServiceImpl implements AuthenticationService, ReactiveUserDetailsService {
     /**
      * 认证服务
      */
     private final ReactiveAuthenticationServiceCustomer authenticationServiceCustomer;
+
+    @Override
+    public Mono<UserDetails> findByUsername(String username) {
+        return this.loginByMultipleWays(username, null, LoginTypeEnums.ACCOUNT);
+    }
 
     @Override
     public Mono<UserDetails> loginByMultipleWays(String loginRef, String loginCertificate, @NotNull LoginTypeEnums loginType) {
