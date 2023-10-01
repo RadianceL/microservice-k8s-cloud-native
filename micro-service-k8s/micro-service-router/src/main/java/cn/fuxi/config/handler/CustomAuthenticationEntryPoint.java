@@ -1,6 +1,6 @@
 package cn.fuxi.config.handler;
 
-import cn.fuxi.config.handler.utils.ResponseHelper;
+import cn.fuxi.utils.ResponseHelper;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.server.ServerAuthenticationEntryPoint;
@@ -18,6 +18,6 @@ public class CustomAuthenticationEntryPoint implements ServerAuthenticationEntry
     @Override
     public Mono<Void> commence(ServerWebExchange exchange, AuthenticationException ex) {
         ServerHttpResponse response = exchange.getResponse();
-        return ResponseHelper.writeWith(response, "自定义未授权拦截器");
+        return ResponseHelper.writeWithFail(response, "自定义未授权拦截器");
     }
 }

@@ -1,6 +1,5 @@
 package cn.fuxi.config.authentication;
 
-import cn.fuxi.common.user.LoginTypeEnums;
 import cn.fuxi.inside.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +10,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
-
-import java.util.function.Consumer;
 
 /**
  * 授权认证管理器

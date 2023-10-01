@@ -4,7 +4,7 @@ import cn.fuxi.common.user.LoginTypeEnums;
 import cn.fuxi.config.authentication.UserAuthenticationToken;
 import cn.fuxi.config.handler.CustomAccessDeniedHandler;
 import cn.fuxi.config.handler.CustomAuthenticationEntryPoint;
-import cn.fuxi.config.handler.utils.ResponseHelper;
+import cn.fuxi.utils.ResponseHelper;
 import cn.fuxi.config.repository.CustomSecurityContextRepository;
 import cn.fuxi.data.LoginCredentials;
 import com.google.common.collect.Lists;
@@ -64,8 +64,8 @@ public class SecurityConfig {
                         return new UserAuthenticationToken(userCredentials.getUsername(), userCredentials.getPassword(), loginTypeEnums);
                     });
         });
-        authenticationFilter.setAuthenticationSuccessHandler((webFilterExchange, authentication) -> ResponseHelper.writeWith(webFilterExchange.getExchange().getResponse(), authentication.getName()));
-        authenticationFilter.setAuthenticationFailureHandler((webFilterExchange, exception) -> ResponseHelper.writeWith(webFilterExchange.getExchange().getResponse(), exception.getMessage()));
+        authenticationFilter.setAuthenticationSuccessHandler((webFilterExchange, authentication) -> ResponseHelper.writeWithSuccess(webFilterExchange.getExchange().getResponse(), authentication.getName()));
+        authenticationFilter.setAuthenticationFailureHandler((webFilterExchange, exception) -> ResponseHelper.writeWithSuccess(webFilterExchange.getExchange().getResponse(), exception.getMessage()));
 
         return http.csrf(ServerHttpSecurity.CsrfSpec::disable)
                 // 获取上次登陆JWT token校验
@@ -77,13 +77,16 @@ public class SecurityConfig {
                                 .denyAll()
                                 .pathMatchers(HttpMethod.OPTIONS).permitAll()
                                 .pathMatchers(HttpMethod.POST, "/api/product/**").access((authentication, context) ->
-                                        hasRole("GUEST").check(authentication, context)
+                                        hasRole("ADMIN").check(authentication, context)
                                                 .filter(decision -> !decision.isGranted())
-                                                .switchIfEmpty(hasRole("ADMIN").check(authentication, context)))
+                                                .switchIfEmpty(hasRole("CUSTOMER").check(authentication, context)))
                                 .pathMatchers(HttpMethod.POST, "/api/manager/**").access((authentication, context) ->
                                         hasRole("ADMIN").check(authentication, context)
                                                 .filter(decision -> !decision.isGranted())
                                                 .switchIfEmpty(hasRole("DBA").check(authentication, context)))
+                                .pathMatchers(HttpMethod.POST, "/certification/**").access((authentication, context) ->
+                                        hasRole("ADMIN").check(authentication, context)
+                                                .filter(decision -> !decision.isGranted()))
                                 .anyExchange().authenticated()
                 )
                 // 使用自定义body获取username & password
