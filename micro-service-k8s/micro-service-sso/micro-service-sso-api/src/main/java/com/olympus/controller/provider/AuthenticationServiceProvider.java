@@ -34,7 +34,7 @@ public class AuthenticationServiceProvider {
         UserBaseInfo userInfo = new UserBaseInfo();
         userInfo.setUsername(username);
         userInfo.setPassword("0000");
-        userInfo.setAuthoritiesRoles(Lists.newArrayList("AA", "ADMIN"));
+        userInfo.setAuthoritiesRoles(Lists.newArrayList("ROLE_CUSTOMER", "ROLE_ADMIN"));
         return ServiceResponse.ofSuccess(userInfo);
     }
 }

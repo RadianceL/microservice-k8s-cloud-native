@@ -1,12 +1,21 @@
 package cn.fuxi.config.repository;
 
+import cn.fuxi.common.reids.GlobalRedisKeys;
+import cn.fuxi.common.user.UserInfo;
+import cn.fuxi.utils.JwtHelper;
+import com.alibaba.excel.util.StringUtils;
 import com.alibaba.fastjson.JSON;
+import com.auth0.jwt.exceptions.AlgorithmMismatchException;
+import com.auth0.jwt.exceptions.InvalidClaimException;
+import com.auth0.jwt.exceptions.SignatureVerificationException;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.google.common.collect.Lists;
 import com.olympus.base.utils.collection.CollectionUtils;
-import com.olympus.domain.MicroSsoUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.http.HttpCookie;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,6 +27,7 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 自定义存储器
@@ -30,6 +40,11 @@ import java.util.List;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class CustomSecurityContextRepository implements ServerSecurityContextRepository {
 
+    /**
+     * redis 仓库
+     */
+    private final RedisTemplate<String, Object> redisTemplate;
+
     @Override
     public Mono<Void> save(ServerWebExchange exchange, SecurityContext context) {
         return null;
@@ -41,24 +56,58 @@ public class CustomSecurityContextRepository implements ServerSecurityContextRep
         if (exchange.getRequest().getPath().toString().equals("/api/login")) {
             return Mono.empty();
         }
+        HttpCookie authTokenCookie = exchange.getRequest().getCookies().getFirst("X-Auth-Token");
+        HttpCookie refreshTokenCookie = exchange.getRequest().getCookies().getFirst("X-Auth-Token");
+        if (Objects.isNull(authTokenCookie) || Objects.isNull(refreshTokenCookie)) {
+            return Mono.empty();
+        }
         // 不对未设置
-        String token = exchange.getRequest().getHeaders().getFirst("X-Auth-Token");
-        if (token == null) {
+        String authToken = authTokenCookie.getValue();
+        String refreshToken = refreshTokenCookie.getValue();
+        if (StringUtils.isBlank(authToken) || StringUtils.isBlank(refreshToken)) {
             return Mono.empty();
         }
 
-        MicroSsoUser user = JSON.parseObject("{}", MicroSsoUser.class);
-        List<String> authoritiesList = user.getAuthorities();
+        String refreshTokenKey = null;
+        try {
+            // 通常这里不会返回全量用户信息
+            // 通过用户信息取 refreshTokenRedis
+            UserInfo userInfo = JwtHelper.verifyToken(authToken);
+            // 超过3天有效期 此时默认需要重新登陆
+            Object refreshTokenRedis = redisTemplate.opsForValue().get(GlobalRedisKeys.getRedisLoginByPrefix(userInfo.getUsername()));
+            if (Objects.isNull(refreshTokenRedis)) {
+                return Mono.empty();
+            }
+            refreshTokenKey = refreshTokenRedis.toString();
+            refreshTokenKey = refreshTokenKey.replaceAll("\"", "");
+        }catch (SignatureVerificationException | AlgorithmMismatchException e) {
+            // 签名不一致 && 算法错误
+            throw new IllegalArgumentException("Signature Verification Error |  Algorithm Mismatch");
+        }catch (TokenExpiredException tokenExpiredException) {
+            // 令牌过期
+            throw new IllegalArgumentException("Token Expired");
+        }catch (InvalidClaimException e) {
+            // 失效的Payload异常
+            // 获取token的服务器比使用token的服务器时钟快，请求分发到时间慢的服务器上导致token还没生效
+            throw new IllegalArgumentException("Invalid Claim, Please try again");
+        }
+
+        Object userInfoOriginalJson = redisTemplate.opsForValue().get(GlobalRedisKeys.getRedisLoginByPrefix(refreshTokenKey));
+        if (Objects.isNull(userInfoOriginalJson)) {
+            return Mono.empty();
+        }
+        UserInfo user = JSON.parseObject(userInfoOriginalJson.toString(), UserInfo.class);
+        List<String> authoritiesList = user.getAuthoritiesRoles();
         List<SimpleGrantedAuthority> authorities;
         if(CollectionUtils.isNotEmpty(authoritiesList)) {
             authorities = authoritiesList.stream().map(SimpleGrantedAuthority::new).toList();
         }else {
-            authorities = Lists.newArrayList(new SimpleGrantedAuthority("ROLE_ADMIN"));
+            authorities = Lists.newArrayList();
         }
         ServerHttpRequest request = exchange.getRequest();
 
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = UsernamePasswordAuthenticationToken
-                .authenticated("user.getUsername()", "0000", authorities);
+                .authenticated(user.getUsername(), user.getPassword(), authorities);
         usernamePasswordAuthenticationToken.setDetails(request);
 
         SecurityContext securityContext = SecurityContextHolder.createEmptyContext();

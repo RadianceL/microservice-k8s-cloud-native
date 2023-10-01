@@ -1,11 +1,15 @@
 package cn.fuxi.common.user;
 
+import com.olympus.base.utils.collection.CollectionUtils;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,6 +20,7 @@ import java.util.stream.Collectors;
  * @author eddie.lys
  * @since 2023/5/11
  */
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserInfo implements UserDetails {
@@ -30,26 +35,14 @@ public class UserInfo implements UserDetails {
     /**
      * 角色权限
      */
+    @Getter
     private List<String> authoritiesRoles;
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setAuthoritiesRoles(List<String> authoritiesRoles) {
-        this.authoritiesRoles = authoritiesRoles;
-    }
-
-    public List<String> getAuthoritiesRoles() {
-        return authoritiesRoles;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+        if (CollectionUtils.isEmpty(this.getAuthoritiesRoles())) {
+            return new ArrayList<>();
+        }
         return this.getAuthoritiesRoles().stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
     }
 

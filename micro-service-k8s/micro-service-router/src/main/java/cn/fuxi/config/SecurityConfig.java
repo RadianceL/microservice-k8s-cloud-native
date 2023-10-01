@@ -2,8 +2,7 @@ package cn.fuxi.config;
 
 import cn.fuxi.common.user.LoginTypeEnums;
 import cn.fuxi.config.authentication.UserAuthenticationToken;
-import cn.fuxi.config.handler.CustomAccessDeniedHandler;
-import cn.fuxi.config.handler.CustomAuthenticationEntryPoint;
+import cn.fuxi.config.handler.*;
 import cn.fuxi.utils.ResponseHelper;
 import cn.fuxi.config.repository.CustomSecurityContextRepository;
 import cn.fuxi.data.LoginCredentials;
@@ -47,46 +46,51 @@ public class SecurityConfig {
      * 自定义认证上下文（JWT token鉴权）
      */
     private final CustomSecurityContextRepository customSecurityContextRepository;
+    /**
+     * 自定义认证成功流程
+     */
+    private final CustomServerAuthenticationSuccessHandler customServerAuthenticationSuccessHandler;
 
     @Bean
     public SecurityWebFilterChain filterChain(ServerHttpSecurity http){
         AuthenticationWebFilter authenticationFilter = new AuthenticationWebFilter(authenticationManager);
+        // 配置认证路径
         authenticationFilter.setRequiresAuthenticationMatcher(ServerWebExchangeMatchers.pathMatchers(HttpMethod.POST, "/api/login"));
-        authenticationFilter.setServerAuthenticationConverter(exchange -> {
-            ServerRequest serverRequest = ServerRequest.create(exchange, Lists.newArrayList(new DecoderHttpMessageReader<>(new Jackson2JsonDecoder())));
-            return serverRequest
-                    // 将 JSON 转换为自定义的 LoginCredentials 类
-                    .bodyToMono(LoginCredentials.class)
-                    // 转换为登陆对象
-                    .map(userCredentials -> {
-                        LoginTypeEnums loginTypeEnums = LoginTypeEnums.findLoginTypeEnums(userCredentials.getLoginType());
-                        // 根据 LoginCredentials 创建 Authentication 对象
-                        return new UserAuthenticationToken(userCredentials.getUsername(), userCredentials.getPassword(), loginTypeEnums);
-                    });
-        });
-        authenticationFilter.setAuthenticationSuccessHandler((webFilterExchange, authentication) -> ResponseHelper.writeWithSuccess(webFilterExchange.getExchange().getResponse(), authentication.getName()));
-        authenticationFilter.setAuthenticationFailureHandler((webFilterExchange, exception) -> ResponseHelper.writeWithSuccess(webFilterExchange.getExchange().getResponse(), exception.getMessage()));
+        // 配置自定义转换器
+        authenticationFilter.setServerAuthenticationConverter(new CustomServerAuthenticationConverter());
+        // 认证成功处理器
+        authenticationFilter.setAuthenticationSuccessHandler(customServerAuthenticationSuccessHandler);
+        // 认证失败处理器
+        authenticationFilter.setAuthenticationFailureHandler(new CustomServerAuthenticationFailureHandler());
 
         return http.csrf(ServerHttpSecurity.CsrfSpec::disable)
                 // 获取上次登陆JWT token校验
                 .securityContextRepository(customSecurityContextRepository)
+                // 配置权限
                 .authorizeExchange(authorizeExchangeSpec ->
+                        // 登陆API 不设访问权限
                         authorizeExchangeSpec.pathMatchers(HttpMethod.POST, "/api/login")
                                 .permitAll()
+                                // 拒绝所有对provider 路径的访问
                                 .pathMatchers("/provider/**")
                                 .denyAll()
+                                // 允许所有OPTIONS 的操作
                                 .pathMatchers(HttpMethod.OPTIONS).permitAll()
+                                // 要求所有/api/product/ 的访问具有 ROLE_ADMIN 权限 或者 CUSTOMER 权限
                                 .pathMatchers(HttpMethod.POST, "/api/product/**").access((authentication, context) ->
                                         hasRole("ADMIN").check(authentication, context)
                                                 .filter(decision -> !decision.isGranted())
                                                 .switchIfEmpty(hasRole("CUSTOMER").check(authentication, context)))
+                                // 要求所有/api/manager/ 的访问具有 ROLE_ADMIN 权限 或者 DBA 权限
                                 .pathMatchers(HttpMethod.POST, "/api/manager/**").access((authentication, context) ->
                                         hasRole("ADMIN").check(authentication, context)
                                                 .filter(decision -> !decision.isGranted())
                                                 .switchIfEmpty(hasRole("DBA").check(authentication, context)))
+                                // 要求所有/certification/** 的访问具有 ROLE_ADMIN 权限
                                 .pathMatchers(HttpMethod.POST, "/certification/**").access((authentication, context) ->
                                         hasRole("ADMIN").check(authentication, context)
                                                 .filter(decision -> !decision.isGranted()))
+                                // 其他所有路径则需要认证
                                 .anyExchange().authenticated()
                 )
                 // 使用自定义body获取username & password
@@ -95,13 +99,15 @@ public class SecurityConfig {
 //                .formLogin(formLoginSpec ->
 //                        formLoginSpec.loginPage("/api/login")
 //                                .authenticationManager(authenticationManager)
-//                                .authenticationFailureHandler((webFilterExchange, exception) -> ResponseHelper.out(webFilterExchange.getExchange().getResponse(), exception.getMessage()))
-//                                .authenticationSuccessHandler((webFilterExchange, authentication) -> ResponseHelper.out(webFilterExchange.getExchange().getResponse(), authentication.getName())))
+//                                .authenticationSuccessHandler(customServerAuthenticationSuccessHandler)
+//                                .authenticationFailureHandler(new CustomServerAuthenticationFailureHandler())
+                // 配置登出接口和处理器
                 .logout(logoutSpec -> {
                     logoutSpec.logoutUrl("/api/logout");
                     logoutSpec.logoutHandler(new SecurityContextServerLogoutHandler());
 //                    logoutSpec.logoutSuccessHandler((exchange, authentication) -> null);
                 })
+                // 配置异常处理
                 .exceptionHandling(exceptionHandlingSpec -> {
                     exceptionHandlingSpec.accessDeniedHandler(new CustomAccessDeniedHandler());
                     exceptionHandlingSpec.authenticationEntryPoint(new CustomAuthenticationEntryPoint());
