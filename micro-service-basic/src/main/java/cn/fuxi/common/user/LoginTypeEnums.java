@@ -1,7 +1,6 @@
 package cn.fuxi.common.user;
 
 import com.alibaba.excel.util.StringUtils;
-import org.apache.poi.util.StringUtil;
 
 import java.util.Arrays;
 

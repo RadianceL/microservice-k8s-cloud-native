@@ -1,19 +1,12 @@
 package cn.fuxi.config;
 
-import cn.fuxi.common.user.LoginTypeEnums;
-import cn.fuxi.config.authentication.UserAuthenticationToken;
 import cn.fuxi.config.handler.*;
-import cn.fuxi.utils.ResponseHelper;
 import cn.fuxi.config.repository.CustomSecurityContextRepository;
-import cn.fuxi.data.LoginCredentials;
-import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.codec.DecoderHttpMessageReader;
-import org.springframework.http.codec.json.Jackson2JsonDecoder;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
 import org.springframework.security.authentication.UserDetailsRepositoryReactiveAuthenticationManager;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
@@ -26,7 +19,6 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.authentication.AuthenticationWebFilter;
 import org.springframework.security.web.server.authentication.logout.SecurityContextServerLogoutHandler;
 import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatchers;
-import org.springframework.web.reactive.function.server.ServerRequest;
 
 import static org.springframework.security.authorization.AuthorityReactiveAuthorizationManager.hasRole;
 
