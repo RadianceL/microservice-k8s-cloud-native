@@ -1,18 +1,54 @@
 spring:
   shardingsphere:
+    props:
+      sql-show: true
     rules:
       sharding:
-        default-database-strategy:
-          standard:
-            sharding-column: timestamp
-            sharding-algorithm-name: standardDatabaseShardingAlgorithm
+        sharding-algorithms:
+          database-inline:
+            type: INLINE
+            props:
+              algorithm-expression: cloud_native_node_${cid.hashCode() % 3}
+        tables:
+          sys_user:
+            actual-data-nodes: cloud_native_node_${0..2}.sys_user
+            table-strategy:
+              standard:
+                sharding-column: cid
+                sharding-algorithm-name: database-inline
+            database-strategy:
+              standard:
+                sharding-column: cid  # 分片键，用于分片的字段名
+                sharding-algorithm-name: database-inline  # 使用的分片算法的名称
+#        default-database-strategy:
+#          standard:
+#            sharding-column: cid  # 分片键，用于分片的字段名
+#            sharding-algorithm-name: database-inline  # 使用的分片算法的名称
+        bindingTables:
+          - sys_user
     datasource:
-      db1:
-        name: db1
+      cloud_native_node_0:
+        name: cloud_native_node_0
         type: com.zaxxer.hikari.HikariDataSource
         driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://124.222.147.194:3306/nacos_devtest?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
-        username: nacos
-        password: nacos
+        url: jdbc:mysql://124.222.147.194:3306/cloud_native_master?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+        username: root
+        password: root
         validationQuery: SELECT 1 FROM DUAL
-      names: db1
+      cloud_native_node_1:
+        name: cloud_native_node_1
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://124.222.147.194:3306/cloud_native_node_1?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+        username: root
+        password: root
+        validationQuery: SELECT 1 FROM DUAL
+      cloud_native_node_2:
+        name: cloud_native_node_2
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://124.222.147.194:3306/cloud_native_node_2?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+        username: root
+        password: root
+        validationQuery: SELECT 1 FROM DUAL
+      names: cloud_native_node_0,cloud_native_node_1,cloud_native_node_2

@@ -20,9 +20,9 @@ public class ReactiveAuthenticationServiceCustomer {
     private final WebClient webClient;
 
     public ReactiveAuthenticationServiceCustomer(ReactorLoadBalancerExchangeFilterFunction lbFunction) {
-        this.webClient = WebClient.builder().filter(lbFunction).baseUrl("http://micro-service-sso/provider").build();
+        this.webClient = WebClient.builder().filter(lbFunction)
+                .baseUrl("http://micro-service-sso/provider").build();
     }
-
     public Mono<ServiceResponse<UserBaseInfo>> internalUserInfoQuery(String username) {
         return webClient.post()
                 .uri("/internal/user-info/query")

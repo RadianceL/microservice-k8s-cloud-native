@@ -69,15 +69,18 @@ public class SecurityConfig {
                                 // 允许所有OPTIONS 的操作
                                 .pathMatchers(HttpMethod.OPTIONS).permitAll()
                                 // 要求所有/api/product/ 的访问具有 ROLE_ADMIN 权限 或者 CUSTOMER 权限
-                                .pathMatchers(HttpMethod.POST, "/api/product/**").access((authentication, context) ->
+                                .pathMatchers(HttpMethod.POST, "/api/product/**")
+                                .access((authentication, context) ->
                                         hasRole("ADMIN").check(authentication, context)
                                                 .filter(decision -> !decision.isGranted())
                                                 .switchIfEmpty(hasRole("CUSTOMER").check(authentication, context)))
                                 // 要求所有/api/manager/ 的访问具有 ROLE_ADMIN 权限 或者 DBA 权限
-                                .pathMatchers(HttpMethod.POST, "/api/manager/**").access((authentication, context) ->
+                                .pathMatchers(HttpMethod.POST, "/api/manager/**")
+                                .access((authentication, context) ->
                                         hasRole("ADMIN").check(authentication, context)
                                                 .filter(decision -> !decision.isGranted())
-                                                .switchIfEmpty(hasRole("DBA").check(authentication, context)))
+                                                .switchIfEmpty(hasRole("DBA")
+                                                        .check(authentication, context)))
                                 // 要求所有/certification/** 的访问具有 ROLE_ADMIN 权限
                                 .pathMatchers(HttpMethod.POST, "/certification/**").access((authentication, context) ->
                                         hasRole("ADMIN").check(authentication, context)
