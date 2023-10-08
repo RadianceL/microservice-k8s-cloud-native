@@ -8,7 +8,7 @@ spring:
           database-inline:
             type: INLINE
             props:
-              algorithm-expression: cloud_native_node_${cid.hashCode() % 3}
+              algorithm-expression: cloud_native_node_${Math.abs(cid.hashCode()) % 3}
         tables:
           sys_user:
             actual-data-nodes: cloud_native_node_${0..2}.sys_user

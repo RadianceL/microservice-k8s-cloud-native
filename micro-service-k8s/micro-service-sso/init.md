@@ -1,3 +1,66 @@
+### bootstrap.yml - on local
+```yaml
+spring:
+  application:
+    name: micro-service-sso
+  profiles:
+    #指定启动环境
+    active: dev
+  cloud:
+    nacos:
+      server-addr: 124.222.147.194:8848
+      config:
+        # 区分环境：开发环境、测试环境、预发布环境、⽣产环境
+        # local-dev的namespace-id
+        namespace: 6007135b-5d03-4e83-b338-387e4951b1e6
+        # 区分不同应⽤：同⼀个环境内，不同应⽤的配置，通过group来区分。
+        group: xw-local-sso
+        # 文件格式
+        file-extension: yaml
+        # 自动刷新配置文件,默认true
+        refresh-enabled: true
+```
+
+### application.yml - on nacos
+```yaml
+server:
+  port: 8081
+spring:
+  data:
+    redis:
+      host: 124.222.147.194
+      port: 6379
+      password: Qwer7410
+  shardingsphere:
+    props:
+      sql-show: true
+    datasource:
+      cloud_native_node_0:
+        name: cloud_native_node_0
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://124.222.147.194:3306/cloud_native_master?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+        username: root
+        password: root
+        validationQuery: SELECT 1 FROM DUAL
+      cloud_native_node_1:
+        name: cloud_native_node_1
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://124.222.147.194:3306/cloud_native_node_1?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+        username: root
+        password: root
+        validationQuery: SELECT 1 FROM DUAL
+      cloud_native_node_2:
+        name: cloud_native_node_2
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://124.222.147.194:3306/cloud_native_node_2?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+        username: root
+        password: root
+        validationQuery: SELECT 1 FROM DUAL
+      names: cloud_native_node_0,cloud_native_node_1,cloud_native_node_2
+```
 ```sql
 ## cloud_native_master
 create table sys_user

@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 /**
  * 认证服务核心API
  *
@@ -38,4 +40,16 @@ public class AuthenticationServiceController {
         return registerUserTag ? ServiceResponse.ofSuccess("注册成功") : ServiceResponse.ofError("注册失败");
     }
 
+    public static void main(String[] args) {
+        System.out.println(Math.abs(UUID.randomUUID().toString().hashCode()));
+        System.out.println(Math.abs(UUID.randomUUID().toString().hashCode()));
+        System.out.println(Math.abs(UUID.randomUUID().toString().hashCode()));
+        System.out.println(Math.abs(UUID.randomUUID().toString().hashCode()));
+        System.out.println(Math.abs(UUID.randomUUID().toString().hashCode()));
+        System.out.println(Math.abs(UUID.randomUUID().toString().hashCode()));
+        System.out.println(Math.abs(UUID.randomUUID().toString().hashCode()));
+        System.out.println(Math.abs(UUID.randomUUID().toString().hashCode()));
+        System.out.println(Math.abs(UUID.randomUUID().toString().hashCode()));
+        System.out.println(Math.abs(UUID.randomUUID().toString().hashCode()));
+    }
 }
