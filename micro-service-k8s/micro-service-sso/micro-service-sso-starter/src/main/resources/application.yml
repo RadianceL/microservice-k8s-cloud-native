@@ -26,29 +26,3 @@ spring:
 #            sharding-algorithm-name: database-inline  # 使用的分片算法的名称
         bindingTables:
           - sys_user
-    datasource:
-      cloud_native_node_0:
-        name: cloud_native_node_0
-        type: com.zaxxer.hikari.HikariDataSource
-        driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://124.222.147.194:3306/cloud_native_master?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
-        username: root
-        password: root
-        validationQuery: SELECT 1 FROM DUAL
-      cloud_native_node_1:
-        name: cloud_native_node_1
-        type: com.zaxxer.hikari.HikariDataSource
-        driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://124.222.147.194:3306/cloud_native_node_1?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
-        username: root
-        password: root
-        validationQuery: SELECT 1 FROM DUAL
-      cloud_native_node_2:
-        name: cloud_native_node_2
-        type: com.zaxxer.hikari.HikariDataSource
-        driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://124.222.147.194:3306/cloud_native_node_2?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
-        username: root
-        password: root
-        validationQuery: SELECT 1 FROM DUAL
-      names: cloud_native_node_0,cloud_native_node_1,cloud_native_node_2
