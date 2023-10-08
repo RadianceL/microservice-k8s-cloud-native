@@ -12,17 +12,21 @@ spring:
         tables:
           sys_user:
             actual-data-nodes: cloud_native_node_${0..2}.sys_user
-            table-strategy:
+#            table-strategy:
+#              standard:
+#                sharding-column: cid
+#                sharding-algorithm-name: database-inline
+            database-strategy:
               standard:
                 sharding-column: cid
                 sharding-algorithm-name: database-inline
+          sys_user_identity:
+            actual-data-nodes: cloud_native_node_${0..2}.sys_user_identity
             database-strategy:
               standard:
-                sharding-column: cid  # 分片键，用于分片的字段名
+                sharding-column: user_cid  # 分片键，用于分片的字段名
                 sharding-algorithm-name: database-inline  # 使用的分片算法的名称
 #        default-database-strategy:
 #          standard:
 #            sharding-column: cid  # 分片键，用于分片的字段名
 #            sharding-algorithm-name: database-inline  # 使用的分片算法的名称
-        bindingTables:
-          - sys_user

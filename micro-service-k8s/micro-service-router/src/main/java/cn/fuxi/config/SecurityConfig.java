@@ -61,7 +61,9 @@ public class SecurityConfig {
                 // 配置权限
                 .authorizeExchange(authorizeExchangeSpec ->
                         // 登陆API 不设访问权限
-                        authorizeExchangeSpec.pathMatchers(HttpMethod.POST, "/api/login")
+                        authorizeExchangeSpec.pathMatchers(HttpMethod.POST,
+                                        "/api/login", "/sso/api/user/register"
+                                )
                                 .permitAll()
                                 // 拒绝所有对provider 路径的访问
                                 .pathMatchers("/provider/**")
