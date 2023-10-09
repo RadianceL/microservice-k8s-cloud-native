@@ -1,5 +1,6 @@
 package cn.fuxi.security;
 
+import cn.fuxi.security.constant.PassThroughUrlConstant;
 import cn.fuxi.security.handler.*;
 import cn.fuxi.security.repository.CustomSecurityContextRepository;
 import lombok.RequiredArgsConstructor;
@@ -62,7 +63,10 @@ public class SecurityConfig {
                 .authorizeExchange(authorizeExchangeSpec ->
                         // 登陆API 不设访问权限
                         authorizeExchangeSpec.pathMatchers(HttpMethod.POST,
-                                        "/api/login", "/sso/api/user/register"
+                                        // 登陆路径
+                                        PassThroughUrlConstant.PASS_THROUGH_LOGIN.getUrl(),
+                                        // 注册路径
+                                        PassThroughUrlConstant.PASS_THROUGH_REGISTER.getUrl()
                                 )
                                 .permitAll()
                                 // 拒绝所有对provider 路径的访问
@@ -110,17 +114,5 @@ public class SecurityConfig {
                     exceptionHandlingSpec.authenticationEntryPoint(new CustomAuthenticationEntryPoint());
                 })
                 .build();
-    }
-
-    @Bean
-    public ReactiveAuthenticationManager authenticationManager(ReactiveUserDetailsService userDetailsService, PasswordEncoder encoder) {
-        UserDetailsRepositoryReactiveAuthenticationManager manager = new UserDetailsRepositoryReactiveAuthenticationManager(userDetailsService);
-        manager.setPasswordEncoder(encoder);
-        return manager;
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
     }
 }

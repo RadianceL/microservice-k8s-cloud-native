@@ -37,19 +37,6 @@ public class AuthenticationServiceController {
     @EventTrace(event = "用户注册", loggerType = LoggerType.FORMAT)
     public ServiceResponse<String> internalUserInfoQuery(@RequestBody SysUserInfoDO userInfo) {
         boolean registerUserTag = systemUserAuthenticationService.registerUser(userInfo);
-        return registerUserTag ? ServiceResponse.ofSuccess("注册成功") : ServiceResponse.ofError("注册失败");
-    }
-
-    public static void main(String[] args) {
-        System.out.println(Math.abs(UUID.randomUUID().toString().hashCode()));
-        System.out.println(Math.abs(UUID.randomUUID().toString().hashCode()));
-        System.out.println(Math.abs(UUID.randomUUID().toString().hashCode()));
-        System.out.println(Math.abs(UUID.randomUUID().toString().hashCode()));
-        System.out.println(Math.abs(UUID.randomUUID().toString().hashCode()));
-        System.out.println(Math.abs(UUID.randomUUID().toString().hashCode()));
-        System.out.println(Math.abs(UUID.randomUUID().toString().hashCode()));
-        System.out.println(Math.abs(UUID.randomUUID().toString().hashCode()));
-        System.out.println(Math.abs(UUID.randomUUID().toString().hashCode()));
-        System.out.println(Math.abs(UUID.randomUUID().toString().hashCode()));
+        return registerUserTag ? ServiceResponse.ofSuccess("register success") : ServiceResponse.ofError("register failure");
     }
 }

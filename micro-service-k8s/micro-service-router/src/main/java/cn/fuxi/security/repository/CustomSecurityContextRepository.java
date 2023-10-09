@@ -27,6 +27,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -54,7 +55,9 @@ public class CustomSecurityContextRepository implements ServerSecurityContextRep
     @Override
     public Mono<SecurityContext> load(ServerWebExchange exchange) {
         // 不对登陆接口生效
-        if (PassThroughUrlConstant.PASS_THROUGH_URL_LIST.contains(exchange.getRequest().getPath().toString())) {
+        if (Arrays.stream(PassThroughUrlConstant.values())
+                .anyMatch(passThroughUrl -> passThroughUrl.getUrl()
+                        .equals(exchange.getRequest().getPath().toString()))) {
             return Mono.empty();
         }
         HttpCookie authTokenCookie = exchange.getRequest().getCookies().getFirst("X-Auth-Token");

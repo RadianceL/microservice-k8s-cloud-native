@@ -42,6 +42,6 @@ public class AuthenticationServiceProvider {
     @EventTrace(event = "用户注册", loggerType = LoggerType.FORMAT)
     public ServiceResponse<String> internalUserInfoQuery(@RequestBody SysUserInfoDO userInfo) {
         boolean registerUserTag = systemUserAuthenticationService.registerUser(userInfo);
-        return registerUserTag ? ServiceResponse.ofSuccess("注册成功") : ServiceResponse.ofError("注册失败");
+        return registerUserTag ? ServiceResponse.ofSuccess("register success") : ServiceResponse.ofError("register failure");
     }
 }

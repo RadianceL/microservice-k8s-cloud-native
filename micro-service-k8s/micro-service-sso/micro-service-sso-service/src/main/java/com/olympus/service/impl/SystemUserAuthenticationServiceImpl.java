@@ -4,6 +4,7 @@ import cn.fuxi.common.user.UserBaseInfo;
 import com.google.common.collect.Lists;
 import com.olympus.base.utils.support.exception.ExtendRuntimeException;
 import com.olympus.base.utils.support.utils.Md5Utils;
+import com.olympus.common.web.lock.RedisDistributedLock;
 import com.olympus.data.BaseUserInfoPO;
 import com.olympus.data.SysUserInfoDO;
 import com.olympus.repository.SystemUserRepository;
@@ -29,6 +30,10 @@ public class SystemUserAuthenticationServiceImpl implements SystemUserAuthentica
      * 用户数据仓库
      */
     private final SystemUserRepository systemUserRepository;
+    /**
+     * 分布式redis锁
+     */
+    private final RedisDistributedLock redisDistributedLock;
 
     @Override
     public UserBaseInfo findUserByUserAccount(String account) {
@@ -45,14 +50,29 @@ public class SystemUserAuthenticationServiceImpl implements SystemUserAuthentica
 
     @Override
     public boolean registerUser(SysUserInfoDO sysUserInfo) {
-        BaseUserInfoPO baseUserInfo = new BaseUserInfoPO();
-        baseUserInfo.setCid(UUID.randomUUID().toString());
-        baseUserInfo.setAccount(sysUserInfo.getAccount());
-        baseUserInfo.setPassword(sysUserInfo.getPassword());
-        baseUserInfo.setNickName(sysUserInfo.getNickName());
-        baseUserInfo.setUserCode(Md5Utils.encode(sysUserInfo.getAccount()));
-        baseUserInfo.setCreateTime(new Date());
-        systemUserRepository.save(baseUserInfo);
-        return true;
+        try {
+            // 分布式锁先锁住当前用户
+            if (redisDistributedLock.commonLock(sysUserInfo.getAccount(), sysUserInfo.getPassword(), 10L)) {
+                // 分库分表不能依赖数据库唯一索引限定 额外查询一次（每个库分别查询）
+                BaseUserInfoPO userInfo = systemUserRepository.findByAccount(sysUserInfo.getAccount());
+                if (Objects.nonNull(userInfo)) {
+                    throw new ExtendRuntimeException("user account already exist");
+                }
+
+                BaseUserInfoPO baseUserInfo = new BaseUserInfoPO();
+                baseUserInfo.setCid(UUID.randomUUID().toString());
+                baseUserInfo.setAccount(sysUserInfo.getAccount());
+                baseUserInfo.setPassword(sysUserInfo.getPassword());
+                baseUserInfo.setNickName(sysUserInfo.getNickName());
+                baseUserInfo.setUserCode(Md5Utils.encode(sysUserInfo.getAccount()));
+                baseUserInfo.setCreateTime(new Date());
+                systemUserRepository.save(baseUserInfo);
+                return true;
+            }
+        }finally {
+            redisDistributedLock.releaseLock(sysUserInfo.getAccount(), sysUserInfo.getPassword());
+        }
+
+        throw new ExtendRuntimeException("user account in process");
     }
 }
