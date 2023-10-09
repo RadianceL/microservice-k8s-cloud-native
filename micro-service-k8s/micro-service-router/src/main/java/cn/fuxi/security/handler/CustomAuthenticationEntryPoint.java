@@ -1,4 +1,4 @@
-package cn.fuxi.config.handler;
+package cn.fuxi.security.handler;
 
 import cn.fuxi.utils.ResponseHelper;
 import org.springframework.http.server.reactive.ServerHttpResponse;

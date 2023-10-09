@@ -1,4 +1,4 @@
-package cn.fuxi.config.handler;
+package cn.fuxi.security.handler;
 
 import cn.fuxi.common.reids.GlobalRedisKeys;
 import cn.fuxi.common.user.UserInfo;

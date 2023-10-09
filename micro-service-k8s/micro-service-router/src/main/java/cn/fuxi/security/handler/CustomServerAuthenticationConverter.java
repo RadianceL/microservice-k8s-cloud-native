@@ -1,7 +1,7 @@
-package cn.fuxi.config.handler;
+package cn.fuxi.security.handler;
 
 import cn.fuxi.common.user.LoginTypeEnums;
-import cn.fuxi.config.authentication.UserAuthenticationToken;
+import cn.fuxi.security.authentication.UserAuthenticationToken;
 import cn.fuxi.data.LoginCredentials;
 import com.google.common.collect.Lists;
 import org.springframework.http.codec.DecoderHttpMessageReader;

@@ -1,7 +1,7 @@
-package cn.fuxi.config;
+package cn.fuxi.security;
 
-import cn.fuxi.config.handler.*;
-import cn.fuxi.config.repository.CustomSecurityContextRepository;
+import cn.fuxi.security.handler.*;
+import cn.fuxi.security.repository.CustomSecurityContextRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

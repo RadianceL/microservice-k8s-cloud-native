@@ -1,4 +1,4 @@
-package cn.fuxi.config.authentication;
+package cn.fuxi.security.authentication;
 
 import cn.fuxi.common.user.LoginTypeEnums;
 import lombok.Getter;

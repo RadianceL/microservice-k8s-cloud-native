@@ -1,7 +1,8 @@
-package cn.fuxi.config.repository;
+package cn.fuxi.security.repository;
 
 import cn.fuxi.common.reids.GlobalRedisKeys;
 import cn.fuxi.common.user.UserInfo;
+import cn.fuxi.security.constant.PassThroughUrlConstant;
 import cn.fuxi.utils.JwtHelper;
 import com.alibaba.excel.util.StringUtils;
 import com.alibaba.fastjson.JSON;
@@ -53,7 +54,7 @@ public class CustomSecurityContextRepository implements ServerSecurityContextRep
     @Override
     public Mono<SecurityContext> load(ServerWebExchange exchange) {
         // 不对登陆接口生效
-        if (exchange.getRequest().getPath().toString().equals("/api/login")) {
+        if (PassThroughUrlConstant.PASS_THROUGH_URL_LIST.contains(exchange.getRequest().getPath().toString())) {
             return Mono.empty();
         }
         HttpCookie authTokenCookie = exchange.getRequest().getCookies().getFirst("X-Auth-Token");
@@ -68,7 +69,7 @@ public class CustomSecurityContextRepository implements ServerSecurityContextRep
             return Mono.empty();
         }
 
-        String refreshTokenKey = null;
+        String refreshTokenKey;
         try {
             // 通常这里不会返回全量用户信息
             // 通过用户信息取 refreshTokenRedis
