@@ -58,7 +58,6 @@ public class SystemUserAuthenticationServiceImpl implements SystemUserAuthentica
                 if (Objects.nonNull(userInfo)) {
                     throw new ExtendRuntimeException("user account already exist");
                 }
-
                 BaseUserInfoPO baseUserInfo = new BaseUserInfoPO();
                 baseUserInfo.setCid(UUID.randomUUID().toString());
                 baseUserInfo.setAccount(sysUserInfo.getAccount());
@@ -72,7 +71,6 @@ public class SystemUserAuthenticationServiceImpl implements SystemUserAuthentica
         }finally {
             redisDistributedLock.releaseLock(sysUserInfo.getAccount(), sysUserInfo.getPassword());
         }
-
         throw new ExtendRuntimeException("user account in process");
     }
 }

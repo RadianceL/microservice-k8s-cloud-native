@@ -6,3 +6,5 @@ dubbo:
     name: micro-service-dubbo-order
   registry:
     address: nacos://124.222.147.194:8848
+    parameters:
+      namespace: 6007135b-5d03-4e83-b338-387e4951b1e6
