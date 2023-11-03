@@ -1,6 +1,6 @@
 package cn.fuxi.security.handler;
 
-import cn.fuxi.common.reids.GlobalRedisKeys;
+import cn.fuxi.common.keys.reids.GlobalRedisKeys;
 import cn.fuxi.common.user.UserInfo;
 import cn.fuxi.data.WebAuthToken;
 import cn.fuxi.utils.JwtHelper;

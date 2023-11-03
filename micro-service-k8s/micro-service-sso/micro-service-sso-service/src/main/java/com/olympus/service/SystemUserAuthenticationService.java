@@ -19,4 +19,8 @@ public interface SystemUserAuthenticationService {
      * 注册用户
      */
     boolean registerUser(SysUserInfoDO sysUserInfo);
+    /**
+     * 冻结用户
+     */
+    boolean frozenUser(SysUserInfoDO sysUserInfo);
 }

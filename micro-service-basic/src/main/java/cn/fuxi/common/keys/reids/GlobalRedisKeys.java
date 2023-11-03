@@ -1,4 +1,4 @@
-package cn.fuxi.common.reids;
+package cn.fuxi.common.keys.reids;
 
 import com.alibaba.excel.util.StringUtils;
 

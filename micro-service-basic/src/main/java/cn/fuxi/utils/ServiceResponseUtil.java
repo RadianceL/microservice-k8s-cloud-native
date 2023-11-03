@@ -23,7 +23,7 @@ public class ServiceResponseUtil {
             throw new InternalServiceException("internal service response failure", response.getMessage(), data);
         }
         if (Objects.isNull(data)) {
-            throw new InternalServiceException("internal service response data is null", response.getMessage(), data);
+            throw new InternalServiceException("internal service response data is null", response.getMessage(), null);
         }
         return response.getData();
     }

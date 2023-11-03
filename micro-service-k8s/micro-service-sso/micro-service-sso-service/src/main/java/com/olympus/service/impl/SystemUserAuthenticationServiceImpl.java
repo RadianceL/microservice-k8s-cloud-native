@@ -73,4 +73,17 @@ public class SystemUserAuthenticationServiceImpl implements SystemUserAuthentica
         }
         throw new ExtendRuntimeException("user account in process");
     }
+
+    @Override
+    public boolean frozenUser(SysUserInfoDO sysUserInfo) {
+        BaseUserInfoPO userInfo = systemUserRepository.findByCid(sysUserInfo.getCid());
+        if (Objects.isNull(userInfo)) {
+            throw new ExtendRuntimeException("Cannot find user info by account");
+        }
+        userInfo.setFrozenFlag(true);
+        userInfo.setFrozenBy(sysUserInfo.getCid());
+        userInfo.setFrozenTime(new Date());
+        systemUserRepository.save(userInfo);
+        return true;
+    }
 }

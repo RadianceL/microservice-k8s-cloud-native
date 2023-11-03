@@ -12,4 +12,6 @@ import org.springframework.stereotype.Repository;
 public interface SystemUserRepository extends CrudRepository<BaseUserInfoPO, Integer> {
 
     BaseUserInfoPO findByAccount(String account);
+
+    BaseUserInfoPO findByCid(String cid);
 }

@@ -1,11 +1,11 @@
 package cn.fuxi.security.repository;
 
-import cn.fuxi.common.reids.GlobalRedisKeys;
+import cn.fuxi.common.keys.reids.GlobalRedisKeys;
 import cn.fuxi.common.user.UserInfo;
 import cn.fuxi.security.constant.PassThroughUrlConstant;
 import cn.fuxi.utils.JwtHelper;
 import com.alibaba.excel.util.StringUtils;
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
 import com.auth0.jwt.exceptions.AlgorithmMismatchException;
 import com.auth0.jwt.exceptions.InvalidClaimException;
 import com.auth0.jwt.exceptions.SignatureVerificationException;
@@ -17,7 +17,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpCookie;
-import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
@@ -108,11 +107,10 @@ public class CustomSecurityContextRepository implements ServerSecurityContextRep
         }else {
             authorities = Lists.newArrayList();
         }
-        ServerHttpRequest request = exchange.getRequest();
 
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = UsernamePasswordAuthenticationToken
                 .authenticated(user.getUsername(), user.getPassword(), authorities);
-        usernamePasswordAuthenticationToken.setDetails(request);
+        usernamePasswordAuthenticationToken.setDetails(user);
 
         SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
         securityContext.setAuthentication(usernamePasswordAuthenticationToken);

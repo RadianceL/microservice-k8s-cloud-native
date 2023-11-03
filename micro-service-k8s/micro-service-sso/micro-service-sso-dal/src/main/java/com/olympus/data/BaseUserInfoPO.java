@@ -33,6 +33,15 @@ public class BaseUserInfoPO {
     @Column(name = "nick_name", nullable = false)
     private String nickName;
 
+    @Column(name = "frozen_flag")
+    private Boolean frozenFlag;
+
+    @Column(name = "frozen_time")
+    private Date frozenTime;
+
+    @Column(name = "frozen_by")
+    private String frozenBy;
+
     @Column(name = "create_time", nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Date createTime;
 

@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserInfo implements UserDetails {
+public class UserInfo extends UserBaseInfo implements UserDetails {
     /**
      * 用户名
      */

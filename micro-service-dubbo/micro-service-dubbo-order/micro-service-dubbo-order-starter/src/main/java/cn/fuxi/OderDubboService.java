@@ -17,4 +17,5 @@ public class OderDubboService {
     public static void main(String[] args) {
         SpringApplication.run(OderDubboService.class, args);
     }
+
 }

@@ -77,6 +77,19 @@ create table sys_user
         unique (user_code)
 ) comment '系统用户表';
 
+alter table sys_user
+    add frozen_flag boolean default false null comment '冻结状态' after nick_name;
+
+alter table sys_user
+    add frozen_time TIMESTAMP null comment '冻结时间' after frozen_flag;
+
+alter table sys_user
+    add frozen_by VARCHAR(64) null comment '冻结操作人(cid)' after frozen_time;
+
+alter table sys_user
+    add last_login_time TIMESTAMP null comment '上一次登陆时间' after frozen_by;
+
+
 create table sys_user_identity
 (
     identity_id   INTEGER                             not null comment '用户权限ID',
