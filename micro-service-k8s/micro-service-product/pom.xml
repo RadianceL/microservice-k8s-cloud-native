@@ -21,7 +21,7 @@
         <module>micro-service-product-api</module>
         <module>micro-service-product-client</module>
         <module>micro-service-product-dal</module>
-        <module>micro-service-product-service</module>
+        <module>micro-service-product-domain</module>
         <module>micro-service-product-starter</module>
     </modules>
 

@@ -11,13 +11,6 @@
 
     <artifactId>micro-service-dubbo-order</artifactId>
     <packaging>pom</packaging>
-    <modules>
-        <module>micro-service-dubbo-order-starter</module>
-        <module>micro-service-dubbo-order-service</module>
-        <module>micro-service-dubbo-order-interface</module>
-        <module>micro-service-dubbo-order-app</module>
-        <module>micro-service-dubbo-order-dal</module>
-    </modules>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -25,4 +18,11 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <modules>
+        <module>micro-service-dubbo-order-starter</module>
+        <module>micro-service-dubbo-order-domain</module>
+        <module>micro-service-dubbo-order-interface</module>
+        <module>micro-service-dubbo-order-app</module>
+        <module>micro-service-dubbo-order-dal</module>
+    </modules>
 </project>

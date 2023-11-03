@@ -9,7 +9,7 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>micro-service-sso-service</artifactId>
+    <artifactId>micro-service-sso-domain</artifactId>
 
     <dependencies>
         <dependency>

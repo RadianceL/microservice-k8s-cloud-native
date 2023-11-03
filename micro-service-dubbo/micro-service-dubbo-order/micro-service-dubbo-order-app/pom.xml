@@ -20,7 +20,7 @@
     <dependencies>
         <dependency>
             <groupId>cn.fuxi</groupId>
-            <artifactId>micro-service-dubbo-order-service</artifactId>
+            <artifactId>micro-service-dubbo-order-domain</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
     </dependencies>

@@ -18,7 +18,7 @@
         <module>micro-service-sso-api</module>
         <module>micro-service-sso-client</module>
         <module>micro-service-sso-dal</module>
-        <module>micro-service-sso-service</module>
+        <module>micro-service-sso-domain</module>
         <module>micro-service-sso-starter</module>
     </modules>
 </project>
