@@ -15,15 +15,12 @@ ENTRYPOINT ["java", \
     "-XX:+UnlockDiagnosticVMOptions", \
     "-XX:+UnlockExperimentalVMOptions", \
     "-XX:+AlwaysPreTouch", \
-    "-XX:MaxRAMPercentage=75", \
-    "-XX:+DisableExplicitGC", \
+    "-XX:MaxRAMPercentage=80", \
     "-XX:+UseG1GC", \
-    "-XX:G1HeapRegionSize=8m", \
+    "-XX:G1HeapRegionSize=4m", \
     "-XX:G1ReservePercent=15", \
     "-XX:+UseStringDeduplication", \
     "--add-opens=java.base/java.lang=ALL-UNNAMED", \
     "--add-opens=java.base/java.util=ALL-UNNAMED", \
     "--add-opens=java.base/sun.net.util=ALL-UNNAMED", \
-    "-jar", "/application.jar", \
-    "-Dreactor.netty.pool.leasingStrategy=lifo", \
-    "-Dio.netty.tryReflectionSetAccessible=true"]
+    "-jar", "/application.jar"]

@@ -64,8 +64,4 @@ public class StandardDatabaseShardingAlgorithm implements StandardShardingAlgori
         System.out.println(props);
     }
 
-    @Override
-    public Properties getProps() {
-        return null;
-    }
 }

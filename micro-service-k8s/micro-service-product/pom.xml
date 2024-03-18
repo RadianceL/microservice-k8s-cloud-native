@@ -25,4 +25,12 @@
         <module>micro-service-product-starter</module>
     </modules>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.graalvm.buildtools</groupId>
+                <artifactId>native-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 </project>
