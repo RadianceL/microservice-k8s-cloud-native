@@ -18,7 +18,7 @@
     <modules>
         <module>micro-service-basic</module>
         <module>micro-service-internal-mesh</module>
-        <module>micro-service-k8s</module>
+        <module>micro-service-cloud</module>
         <module>micro-service-dubbo</module>
     </modules>
 
