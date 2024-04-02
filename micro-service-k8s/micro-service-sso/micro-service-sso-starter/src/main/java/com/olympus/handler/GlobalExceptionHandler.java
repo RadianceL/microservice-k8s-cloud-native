@@ -26,5 +26,4 @@ public class GlobalExceptionHandler {
         log.error("全局异常处理器拦截异常", e);
         return Response.ofError(e.getMessage());
     }
-
 }

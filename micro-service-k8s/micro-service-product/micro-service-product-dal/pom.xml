@@ -28,8 +28,8 @@
         </dependency>
 
         <dependency>
-            <groupId>org.apache.shardingsphere</groupId>
-            <artifactId>shardingsphere-jdbc-core</artifactId>
+            <groupId>com.olympus</groupId>
+            <artifactId>olympus-hestia</artifactId>
         </dependency>
     </dependencies>
 </project>

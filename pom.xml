@@ -11,7 +11,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.3</version>
+        <version>3.2.4</version>
         <relativePath/>
     </parent>
 
@@ -42,7 +42,7 @@
         <nacos-client.version>2.2.4</nacos-client.version>
         <spring-cloud.version>2023.0.0</spring-cloud.version>
         <mysql-connector-j.version>8.2.0</mysql-connector-j.version>
-        <shardingsphere-jdbc.version>5.4.1</shardingsphere-jdbc.version>
+        <olympus-hestia.version>1.0.0-SNAPSHOT</olympus-hestia.version>
         <olympus-artemis-starter.version>2.0.1</olympus-artemis-starter.version>
         <spring-cloud-alibaba.version>2023.0.0.0-RC1</spring-cloud-alibaba.version>
         <mybatis-spring-boot-starter.version>3.0.3</mybatis-spring-boot-starter.version>
@@ -76,9 +76,9 @@
             </dependency>
 
             <dependency>
-                <groupId>org.apache.shardingsphere</groupId>
-                <artifactId>shardingsphere-jdbc-core</artifactId>
-                <version>${shardingsphere-jdbc.version}</version>
+                <groupId>com.olympus</groupId>
+                <artifactId>olympus-hestia</artifactId>
+                <version>${olympus-hestia.version}</version>
             </dependency>
 
             <dependency>

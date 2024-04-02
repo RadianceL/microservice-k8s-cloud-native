@@ -37,7 +37,7 @@ public class AuthenticationAccountServiceController {
     @PostMapping("/frozen/self")
     @EventTrace(event = "用户冻结", loggerType = LoggerType.FORMAT)
     public ServiceResponse<String> userFrozen(@RequestBody SysUserInfoDO userInfo) {
-        boolean registerUserTag = systemUserAuthenticationService.registerUser(userInfo);
-        return registerUserTag ? ServiceResponse.ofSuccess("register success") : ServiceResponse.ofError("register failure");
+        boolean registerUserTag = systemUserAuthenticationService.frozenUser(userInfo);
+        return registerUserTag ? ServiceResponse.ofSuccess("frozen success") : ServiceResponse.ofError("register failure");
     }
 }

@@ -81,7 +81,7 @@ public class SystemUserAuthenticationServiceImpl implements SystemUserAuthentica
             throw new ExtendRuntimeException("Cannot find user info by account");
         }
         userInfo.setFrozenFlag(true);
-        userInfo.setFrozenBy(sysUserInfo.getCid());
+        userInfo.setFrozenBy(0);
         userInfo.setFrozenTime(new Date());
         systemUserRepository.save(userInfo);
         return true;

@@ -40,7 +40,7 @@ public class BaseUserInfoPO {
     private Date frozenTime;
 
     @Column(name = "frozen_by")
-    private String frozenBy;
+    private Integer frozenBy;
 
     @Column(name = "create_time", nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Date createTime;
