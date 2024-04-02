@@ -23,14 +23,7 @@
         <module>micro-service-product-dal</module>
         <module>micro-service-product-domain</module>
         <module>micro-service-product-starter</module>
+        <module>micro-service-product-interface</module>
     </modules>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.graalvm.buildtools</groupId>
-                <artifactId>native-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 </project>
