@@ -14,13 +14,13 @@ ENV APPLICATION_PROFILE=$ACTIVE_PROFILE
 ENTRYPOINT ["java", \
     "-XX:+UnlockDiagnosticVMOptions", \
     "-XX:+UnlockExperimentalVMOptions", \
-    "-XX:+AlwaysPreTouch", \
     "-XX:MaxRAMPercentage=80", \
-    "-XX:+UseG1GC", \
-    "-XX:G1HeapRegionSize=4m", \
-    "-XX:G1ReservePercent=15", \
     "-XX:+UseStringDeduplication", \
+    "-XX:+HeapDumpOnOutOfMemoryError", \
+    "-XX:HeapDumpPath=/usr/local/app/oom", \
     "--add-opens=java.base/java.lang=ALL-UNNAMED", \
     "--add-opens=java.base/java.util=ALL-UNNAMED", \
     "--add-opens=java.base/sun.net.util=ALL-UNNAMED", \
-    "-jar", "/application.jar"]
+    "-jar", "/application.jar", \
+    "-Dreactor.netty.pool.leasingStrategy=lifo", \
+    "-Dio.netty.tryReflectionSetAccessible=true"]
