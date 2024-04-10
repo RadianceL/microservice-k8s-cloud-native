@@ -15,4 +15,3 @@ but how to use those "unstable component" to assemble a stable system is what ph
 
 
 ![flow-architecture.png](image%2Fflow-architecture.png)
-

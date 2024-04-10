@@ -15,3 +15,10 @@ spring:
           url: jdbc:mysql://124.222.147.194:3306/cloud_native_node_2?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
           username: root
           password: root
+seata:
+  tx-service-group: train-group
+  service:
+    vgroup-mapping:
+      train-group: default
+    grouplist:
+      default: 124.222.147.194:8091

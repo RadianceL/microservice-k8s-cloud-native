@@ -8,7 +8,7 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 /**
- * 自定义无权限拦截器
+ * 自定义未授权拦截器
  *
  * @author eddie.lys
  * @since 2023/9/27

@@ -36,7 +36,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.sruoce.sourceEncoding>UTF-8</project.sruoce.sourceEncoding>
 
-        <dubbo.version>3.2.11</dubbo.version>
+        <dubbo.version>3.3.0-beta.2</dubbo.version>
         <java-jwt.version>4.4.0</java-jwt.version>
         <fastjson2.version>2.0.40</fastjson2.version>
         <nacos-client.version>2.2.4</nacos-client.version>

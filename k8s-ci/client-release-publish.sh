@@ -5,8 +5,8 @@ export PATH="$M2_HOME/bin:$PATH"
 cd ..
 mvn clean
 
-mvn clean deploy -B -f cloud-service-center-domain-service/cloud-service-center-service-client/pom.xml -am -Dmaven.test.skip=true
+mvn clean deploy -B -f micro-service-cloud/micro-service-product/micro-service-product-client/pom.xml -am -Dmaven.test.skip=true
 
-mvn clean deploy -B -f cloud-service-dubbo-cloud-provider/cloud-service-dubbo-cloud-client/pom.xml -am -Dmaven.test.skip=true
+mvn clean deploy -B -f micro-service-cloud/micro-service-sso/micro-service-sso-client/pom.xml -am -Dmaven.test.skip=true
 
-mvn clean deploy -B -f cloud-service-spring-cloud-provider/cloud-service-spring-cloud-client/pom.xml -am -Dmaven.test.skip=true
+mvn clean deploy -B -f micro-service-dubbo/micro-service-dubbo-order/cloud-service-spring-cloud-client/pom.xml -am -Dmaven.test.skip=true
