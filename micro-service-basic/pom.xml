@@ -37,7 +37,7 @@
 
         <dependency>
             <groupId>com.olympus</groupId>
-            <artifactId>olympus-chaos-monitor-base-logger</artifactId>
+            <artifactId>olympus-chaos-monitor-starter</artifactId>
         </dependency>
     </dependencies>
 </project>
