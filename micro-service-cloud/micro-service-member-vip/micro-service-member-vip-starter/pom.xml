@@ -5,12 +5,18 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cn.fuxi</groupId>
-        <artifactId>micro-service-product</artifactId>
+        <artifactId>micro-service-member-vip</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>micro-service-product-starter</artifactId>
+    <artifactId>micro-service-member-vip-starter</artifactId>
     <version>1.0.0-SNAPSHOT</version>
+
+    <properties>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -25,7 +31,7 @@
 
         <dependency>
             <groupId>cn.fuxi</groupId>
-            <artifactId>micro-service-product-api</artifactId>
+            <artifactId>micro-service-member-vip-api</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
 

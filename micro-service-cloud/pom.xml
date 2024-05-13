@@ -17,6 +17,7 @@
         <module>micro-service-router</module>
         <module>micro-service-sso</module>
         <module>micro-service-product</module>
+        <module>micro-service-member-vip</module>
     </modules>
 
     <properties>

@@ -1,4 +1,4 @@
-package cn.fu.service;
+package cn.fu.service
 
 /**
  * 商品主服务
@@ -6,5 +6,4 @@ package cn.fu.service;
  * @author eddie.lys
  * @since 2024/4/2
  */
-public interface ProductMasterService {
-}
+interface ProductMasterService 

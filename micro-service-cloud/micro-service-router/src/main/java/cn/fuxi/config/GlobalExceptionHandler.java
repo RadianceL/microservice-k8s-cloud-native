@@ -17,6 +17,7 @@ import reactor.core.publisher.Mono;
 @Order(-1)
 @Component
 public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
+
     @Override
     public @NotNull Mono<Void> handle(@NotNull ServerWebExchange exchange, @NotNull Throwable ex) {
         log.error("全局异常拦截器", ex);
