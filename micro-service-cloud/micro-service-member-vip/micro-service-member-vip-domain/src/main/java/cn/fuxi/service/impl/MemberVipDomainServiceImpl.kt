@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service
 @Service
 class MemberVipDomainServiceImpl : MemberVipDomainService {
 
-    override fun defineUserAsVIP() {
+    override fun defineUserAsVIP(): Boolean {
         TODO("Not yet implemented")
     }
 }
