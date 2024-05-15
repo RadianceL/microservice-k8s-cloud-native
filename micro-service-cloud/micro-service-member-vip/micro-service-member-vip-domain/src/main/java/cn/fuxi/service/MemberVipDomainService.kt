@@ -10,5 +10,5 @@ interface MemberVipDomainService {
     /**
      * 定义一个用户为VIP
      */
-    fun defineUserAsVIP()
+    fun defineUserAsVIP() : Boolean
 }
