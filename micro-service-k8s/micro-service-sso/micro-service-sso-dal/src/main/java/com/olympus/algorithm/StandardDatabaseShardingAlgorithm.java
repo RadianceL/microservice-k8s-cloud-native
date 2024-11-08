@@ -48,9 +48,9 @@ public class StandardDatabaseShardingAlgorithm implements StandardShardingAlgori
     @Override
     public Collection<String> doSharding(Collection<String> availableTargetNames, RangeShardingValue<Long> rangeShardingValue) {
         Collection<String> collect = new ArrayList<>();
-        collect.add("db1");
-        collect.add("db2");
-        collect.add("db3");
+        collect.add("cloud_native_master");
+        collect.add("cloud_native_node_1");
+        collect.add("cloud_native_node_2");
         return collect;
     }
 
