@@ -1,0 +1,79 @@
+version: "3.8"
+services:
+  nacos:
+    image: nacos/nacos-server:${NACOS_VERSION}
+    container_name: nacos-mysql
+    environment:
+      - PREFER_HOST_MODE=hostname
+      - MODE=standalone
+      - SPRING_DATASOURCE_PLATFORM=mysql
+      - MYSQL_SERVICE_HOST=mysql
+      - MYSQL_SERVICE_DB_NAME=nacos_devtest
+      - MYSQL_SERVICE_PORT=3306
+      - MYSQL_SERVICE_USER=root
+      - MYSQL_SERVICE_PASSWORD=Qwer7410
+      - MYSQL_SERVICE_DB_PARAM=characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useUnicode=true&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+      - NACOS_AUTH_IDENTITY_KEY=2222
+      - NACOS_AUTH_IDENTITY_VALUE=2xxx
+      - NACOS_AUTH_TOKEN=SecretKey012345678901234567890123456789012345678901234567890123456789
+    volumes:
+      - ./standalone-logs/:/home/nacos/logs
+    ports:
+      - "8848:8848"
+      - "9848:9848"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    restart: always
+    networks:
+      - service_network
+
+  seata-server:
+    image: seataio/seata-server:1.5.2
+    ports:
+      - "7091:7091"
+      - "8091:8091"
+    environment:
+      - STORE_MODE=db
+      - SEATA_PORT=8091
+    volumes:
+      - "./seata-server/resources:/seata-server/resources"
+    networks:
+      - service_network
+
+  mysql:
+    image: mysql:${MYSQL_VERSION}
+    container_name: mysql-container
+    networks:
+      - service_network
+    environment:
+      - MYSQL_ROOT_PASSWORD=Qwer7410
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      interval: 5s
+      timeout: 10s
+      retries: 10
+
+  redis:
+    image: redis:${REDIS_VERSION}
+    container_name: redis-container
+    networks:
+      - service_network
+    volumes:
+      - ./redis-data:/data
+    ports:
+      - "6379:6379"
+    environment:
+      - REDIS_PASSWORD=Qwer7410
+    command:
+      - --requirepass
+      - Qwer7410
+
+networks:
+  service_network:
+    driver: bridge
+    name: service_network
