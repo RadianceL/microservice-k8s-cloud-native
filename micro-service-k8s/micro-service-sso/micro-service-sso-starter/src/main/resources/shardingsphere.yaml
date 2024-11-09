@@ -17,18 +17,18 @@ dataSources:
     jdbcUrl: jdbc:mysql://localhost:3306/cloud_native_node_2?useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false&useSSL=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
     username: root
     password: Qwer7410
+# 规则配置
 rules:
   - !SHARDING
+    shardingAlgorithms:
+      database_standard_sharding_algorithm:
+        type: CLASS_BASED
+        props:
+          strategy: standard
+          algorithmClassName: com.olympus.algorithm.StandardDatabaseShardingAlgorithm
     tables:
       sys_user:
-        actualDataNodes: cloud_native_node_${0..2}.sys_user
-        tableStrategy:
+        databaseStrategy:
           standard:
             shardingColumn: cid
-            shardingAlgorithmName: database_inline
-    shardingAlgorithms:
-      database_inline:
-        type: STANDARD_ALGORITHM
-        props:
-          strategy: STANDARD
-          algorithmClassName: com.olympus.algorithm.StandardDatabaseShardingAlgorithm
+            shardingAlgorithmName: database_standard_sharding_algorithm

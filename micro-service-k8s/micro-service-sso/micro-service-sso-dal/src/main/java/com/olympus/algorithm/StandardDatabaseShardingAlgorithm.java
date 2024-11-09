@@ -16,7 +16,7 @@ import java.util.Properties;
  */
 @Slf4j
 @Component(value = "standardDatabaseShardingAlgorithm")
-public class StandardDatabaseShardingAlgorithm implements StandardShardingAlgorithm<Long> {
+public class StandardDatabaseShardingAlgorithm implements StandardShardingAlgorithm<String> {
 
     /**
      * 精确分片
@@ -26,16 +26,22 @@ public class StandardDatabaseShardingAlgorithm implements StandardShardingAlgori
      * @return 返回目标结果
      */
     @Override
-    public String doSharding(Collection<String> availableTargetNames, PreciseShardingValue<Long> shardingValue) {
-        long companyId = shardingValue.getValue();
+    public String doSharding(Collection<String> availableTargetNames, PreciseShardingValue<String> shardingValue) {
+        String cid = shardingValue.getValue();
         // 假设数据库名格式为db1、db2、db3等，根据公司ID进行分片计算
-        int databaseIndex = (int) (companyId % availableTargetNames.size());
-        for (String databaseName : availableTargetNames) {
-            if (databaseName.endsWith(String.valueOf(databaseIndex))) {
-                return databaseName;
-            }
+        int hashValue = 0;
+        for (char c : cid.toCharArray()) {
+            hashValue += c;
         }
-        throw new IllegalArgumentException("No matching database found for companyId: " + companyId);
+        int databaseIndex = hashValue % availableTargetNames.size();
+
+//        for (String databaseName : availableTargetNames) {
+//            if (databaseName.endsWith(String.valueOf(databaseIndex))) {
+//                return databaseName;
+//            }
+//        }
+//        throw new IllegalArgumentException("No matching database found for companyId: " + cid);
+        return new ArrayList<>(availableTargetNames).get(databaseIndex);
     }
 
     /**
@@ -46,7 +52,7 @@ public class StandardDatabaseShardingAlgorithm implements StandardShardingAlgori
      * @return 返回目标结果。可以是多个。
      */
     @Override
-    public Collection<String> doSharding(Collection<String> availableTargetNames, RangeShardingValue<Long> rangeShardingValue) {
+    public Collection<String> doSharding(Collection<String> availableTargetNames, RangeShardingValue<String> rangeShardingValue) {
         Collection<String> collect = new ArrayList<>();
         collect.add("cloud_native_master");
         collect.add("cloud_native_node_1");
