@@ -6,7 +6,7 @@ spring:
     active: dev
   cloud:
     nacos:
-      server-addr: http://nacos.example.orb.local
+      server-addr: localhost:8848
       discovery:
         namespace: 6007135b-5d03-4e83-b338-387e4951b1e6
       config:
