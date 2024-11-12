@@ -11,7 +11,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.4</version>
+        <version>3.3.5</version>
         <relativePath/>
     </parent>
 
@@ -36,12 +36,12 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.sruoce.sourceEncoding>UTF-8</project.sruoce.sourceEncoding>
 
-        <dubbo.version>3.3.1</dubbo.version>
+        <dubbo.version>3.3.2</dubbo.version>
         <java-jwt.version>4.4.0</java-jwt.version>
         <fastjson2.version>2.0.53</fastjson2.version>
-        <nacos-client.version>2.4.2</nacos-client.version>
+        <nacos-client.version>2.4.3</nacos-client.version>
         <spring-cloud.version>2023.0.3</spring-cloud.version>
-        <antlr4-runtime.version>4.10.1</antlr4-runtime.version>
+        <antlr4-runtime.version>4.13.2</antlr4-runtime.version>
         <mysql-connector-j.version>8.4.0</mysql-connector-j.version>
         <shardingsphere-jdbc.version>5.5.0</shardingsphere-jdbc.version>
         <olympus-artemis-starter.version>2.0.1</olympus-artemis-starter.version>

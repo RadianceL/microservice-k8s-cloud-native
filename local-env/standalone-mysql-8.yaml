@@ -27,17 +27,20 @@ services:
     restart: always
     networks:
       - service_network
-
   seata-server:
-    image: seataio/seata-server:1.5.2
+    image: apache/seata-server:${SEATA_VERSION}
+    hostname: seata-server
     ports:
-      - "7091:7091"
       - "8091:8091"
+      - "7091:7091"
     environment:
-      - STORE_MODE=db
       - SEATA_PORT=8091
+    expose:
+      - 8091
+      - 7091
     volumes:
       - "./seata-server/resources:/seata-server/resources"
+      - "./seata-server/mysql-connector-j-8.4.0.jar:/seata-server/libs/mysql-connector-j-8.4.0.jar"
     networks:
       - service_network
 
